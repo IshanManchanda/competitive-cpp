@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.12)
+project(Competitive)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(Competitive "ICO/Training - TINOI17B.cpp")
