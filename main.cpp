@@ -6,6 +6,4 @@ int main() {
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	cout << "Hello, World!" << endl;
-	return 0;
 }

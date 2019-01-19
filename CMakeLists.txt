@@ -3,4 +3,4 @@ project(Competitive)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Competitive "ICO/Training - TINOI17B.cpp")
+add_executable(Competitive "CodeChef Contests/ICOP1904/[WIP] Super Sayan - SSJG.cpp")
