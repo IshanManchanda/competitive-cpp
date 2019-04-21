@@ -11,7 +11,7 @@ int main() {
 	long long a[N + 1], b[N + 1], suffix[N + 1], prefix[N + 1];
 	for (long long i = 0; i < N; i++) {
 		cin >> a[i];
-		b[i] = a[i] + i + 1;
+		b[i] = a[i] + i + 1; // b stores the initial sums
 	}
 
 	// Precompute max prefix and suffix arrays

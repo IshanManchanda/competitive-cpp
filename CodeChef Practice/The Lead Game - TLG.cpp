@@ -14,7 +14,7 @@ int main() {
 		cin >> a >> b;
 		ca += a;
 		cb += b;
-		if ((ca > cb) && (ca - cb > md)) {
+		if (ca - cb > md) {
 			md = ca - cb;
 			w = false;
 		} else if (cb - ca > md) {

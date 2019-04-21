@@ -1,24 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-//int parent(int node, int arr[]) {
-//	if (arr[node] == node) {
-//		return node;
-//	}
-//	return arr[node] = parent(arr[node], arr);
-//}
-//
-
-void print(int arr[], int n) {
-	for (int i = 0; i < n; i++)
-		cout << arr[i] << ' ';
-	cout << endl;
-}
 
 int main() {
-//	ios_base::sync_with_stdio(false);
-//	cin.tie(nullptr);
-//	cout.tie(nullptr);
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
 
 	int T, N, M, K, u, v, sum, size, c;
 	cin >> T;
@@ -31,6 +18,7 @@ int main() {
 
 		for (int i = 0; i < M; i++) {
 			cin >> u >> v;
+			u--; v--;
 			adj[v].push_back(u);
 			adj[u].push_back(v);
 		}
@@ -48,15 +36,16 @@ int main() {
 			while (!q.empty()) {
 				c = q.front();
 				q.pop();
-				for (int j = 0; j < adj[c].size(); j++) {
+				for (int j : adj[c]) {
 					if (!visited[j]) {
-						q.push(adj[c][j]);
-						visited[adj[c][j]] = true;
-						vec[vec.size() - 1] += mus[adj[c][j]];
+						q.push(j);
+						visited[j] = true;
+						vec[vec.size() - 1] += mus[j];
 					}
 				}
 			}
 		}
+		size = vec.size();
 		if (vec.size() < K) {
 			cout << "-1" << endl;
 			continue;
@@ -74,7 +63,7 @@ int main() {
 				sum += vec[i] + vec[size - i - 1];
 			}
 		}
-		cout << sum << endl;
+		cout << sum << '\n';
 
 	}
 }
