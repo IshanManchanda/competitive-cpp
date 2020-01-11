@@ -6,18 +6,20 @@ int main() {
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	long long N, b, c, t = 0;
-	cin >> N;
-	pair<long long, long long> a[N];
-	for (long long i = 0; i < N; i++) {
-		cin >> a[i].second >> b >> c;
-		a[i].first = b + c;
+	long long n, x, y, z, tm = 0, tc = 0;
+	cin >> n;
+
+	pair<long long, long long> t[n];
+	for (int i = 0; i < n; ++i) {
+		cin >> x >> y >> z;
+		t[i] = {y + z, x};
 	}
-	sort(a, a + N, greater<>());
-	t = a[0].first + a[0].second;
-	for (long long i = 1; i < N; i++) {
-		a[i].second += a[i - 1].second;
-		t = max(t, a[i].first + a[i].second);
+
+	sort(t, t + n, greater<>());
+	for (int i = 0; i < n; ++i) {
+		tc += t[i].second;
+		tm = max(tm, tc + t[i].first);
 	}
-	cout << t << endl;
+
+	cout << tm << endl;
 }
