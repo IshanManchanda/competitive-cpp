@@ -3,4 +3,4 @@ project(Competitive)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(main ${PROJECT_SOURCE_DIR}/current.cpp)
+add_executable(main "current.cpp")
