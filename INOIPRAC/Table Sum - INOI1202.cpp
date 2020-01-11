@@ -1,3 +1,4 @@
+// https://www.codechef.com/INOIPRAC/problems/INOI1202
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -6,28 +7,29 @@ int main() {
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	long long N;
-	cin >> N;
-	long long a[N + 1], b[N + 1], suffix[N + 1], prefix[N + 1];
-	for (long long i = 0; i < N; i++) {
+	long long n, max_from_start, max_from_end;
+	cin >> n;
+
+	long long a[n + 1], suffix[n + 1], prefix[n + 1];
+	for (auto i = 0; i < n; ++i) {
 		cin >> a[i];
-		b[i] = a[i] + i + 1; // b stores the initial sums
+		a[i] += i + 1; // Initial sums
 	}
 
 	// Precompute max prefix and suffix arrays
-	prefix[0] = b[0];
-	suffix[N - 1] = b[N - 1];
-	for (long long i = 1; i < N; i++) {
-		prefix[i] = max(prefix[i - 1], b[i]);
-		suffix[N - i - 1] = max(suffix[N - i], b[N - i - 1]);
+	prefix[0] = a[0];
+	suffix[n - 1] = a[n - 1];
+	for (auto i = 1; i < n; i++) {
+		prefix[i] = max(prefix[i - 1], a[i]);
+		suffix[n - i - 1] = max(suffix[n - i], a[n - i - 1]);
 	}
 
-	cout << suffix[0] << ' '; // Initial max is 0'th element
+	cout << suffix[0] << ' '; // Initial max is global max
 
-	for (long long i = 1; i < N; i++) {
-		// Partition between (N - i - 1)'th and (N - i)'th terms.
-		long long max_from_start = prefix[N - i - 1] + i;
-		long long max_from_end = suffix[N - i] + i - N;
+	for (auto i = 1; i < n; ++i) {
+		// Partition between (n - i - 1)'th and (n - i)'th terms.
+		max_from_start = prefix[n - i - 1] + i;
+		max_from_end = suffix[n - i] + i - n;
 		cout << max(max_from_start, max_from_end) << ' ';
 	}
 	cout << endl;
