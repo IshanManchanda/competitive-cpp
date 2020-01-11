@@ -1,42 +1,33 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define NEG_INF -2e9
+
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	int N, K;
-	cin >> N >> K;
-	K--;
+	long long n, k, ans = NEG_INF;
+	cin >> n >> k;
+	k--;
 
-	if (N == 1) {
-		cout << 0;
-		return 0;
-	}
-
-	long long a[N], forward[N], backward[N];
-	long long m = -100000001;
-	for (int i = 0; i < N; i++) {
+	long long a[n], f[n], b[n];
+	for (auto i = 0; i < n; ++i)
 		cin >> a[i];
-		forward[i] = 0;
-	}
 
-	if (K != N) {
-		forward[K + 1] = a[K + 1];
-		for (int i = K + 2; i < N; i++) {
-			forward[i] = max(forward[i - 1], forward[i - 2]) + a[i];
-		}
-	}
-	backward[0] = a[0];
-	backward[1] = a[0] + a[1];
-	for (int i = 2; i < N; i++) {
-		backward[i] = max(backward[i - 1], backward[i - 2]) + a[i];
-	}
+	b[0] = a[0];
+	b[1] = a[1] + a[0];
+	for (auto i = 2; i < n; ++i)
+		b[i] = a[i] + max(b[i - 1], b[i - 2]);
 
-	for (int i = K; i < N; i++) {
-		m = max(m, forward[i] + backward[i] - a[i]);
-	}
-	cout << m << endl;
+	f[k] = 0;
+	f[k + 1] = a[k + 1];
+	for (auto i = k + 2; i < n; ++i)
+		f[i] = a[i] + max(f[i - 1], f[i - 2]);
 
+	for (auto i = k; i < n; ++i)
+		ans = max(ans, f[i] + b[i] - a[i]);
+
+	cout << ans << endl;
 }
