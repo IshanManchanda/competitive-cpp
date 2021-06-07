@@ -21,6 +21,8 @@ int main() {
 //	freopen("input.txt", "r", stdin);
 //	freopen("output.txt", "w", stdout);
 
+	// If not first line, might need an extra getline before
+	// to consume the \n on the previous line
 //	string s;
 //	getline(cin, s);
 
