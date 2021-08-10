@@ -1,5 +1,6 @@
 a.exe
 current.cpp
+archive*.cpp
 
 cmake-build*
 .idea

@@ -13,6 +13,4 @@ int main() {
 		sort(a, a + 3);
 		cout << "Case " << i << ": " << a[1] << endl;
 	}
-
-
 }
