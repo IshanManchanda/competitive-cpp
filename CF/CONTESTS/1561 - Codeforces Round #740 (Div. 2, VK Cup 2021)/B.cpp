@@ -36,37 +36,18 @@ int main() {
 	while (t--) {
 		int a, b;
 		cin >> a >> b;
+		if (a < b) swap(a, b);
+		int x = (a - b) / 2;
 
-		if (a == b) {
-			cout << a + 1 << "\n";
-			for (int i = 0; i <= 2 * a; i += 2)
-				cout << i << " ";
-			cout << "\n";
-			continue;
-		}
-		if (abs(a - b) == 1) {
-			cout << a + b + 1 << "\n";
-			for (int i = 0; i <= a + b; ++i)
-				cout << i << " ";
-			cout << "\n";
-			continue;
-		}
-		int x;
-		if (a < b) {
-			x = a;
-			a = b;
-			b = x;
-		}
-		x = a - b;
-		if (x % 2 == 0) {
-			cout << b + 1 << "\n";
-			for (int i = x / 2; i <= 2 * b + x / 2; i += 2)
+		if ((a + b) % 2 == 0) {
+			cout << (a + b) / 2 - x + 1 << "\n";
+			for (int i = x; i <= a + b - x; i += 2)
 				cout << i << " ";
 			cout << "\n";
 		}
 		else {
-			cout << 2 * b + 2 << "\n";
-			for (int i = x / 2; i <= 2 * b + x / 2 + 1; ++i)
+			cout << a + b - 2 * x + 1 << "\n";
+			for (int i = x; i <= a + b - x; ++i)
 				cout << i << " ";
 			cout << "\n";
 		}
