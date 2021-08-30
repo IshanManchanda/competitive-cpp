@@ -1,6 +1,8 @@
-a.exe
+*.exe
 current.cpp
 archive*.cpp
+input*.txt
+output*.txt
 
 cmake-build*
 .idea
