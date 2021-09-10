@@ -27,10 +27,8 @@ int main() {
 	cin >> n;
 	int a[n];
 
-	REP(i, 0, n)
-	cin >> a[i];
-	RREP(i, n - 1, -1)
-	cout << a[i] << " ";
+	REP(i, 0, n) cin >> a[i];
+	RREP(i, n - 1, -1) cout << a[i] << " ";
 
 	cout << flush;
 }
