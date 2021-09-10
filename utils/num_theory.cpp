@@ -32,6 +32,23 @@ typedef vector<vi> vvi;
 typedef vector<int> vl;
 typedef vector<vi> vvl;
 
+ll bin_exp_mod(ll x, ll y, ll m) {
+	if (y == 0) return 1;
+	ll p = bin_exp_mod(x, y / 2, m) % m;
+	p = (p * p) % m;
+	return (y % 2 == 0) ? p : (x * p) % m;
+}
+
+ll bin_exp(ll x, ll y) {
+	if (y == 0) return 1;
+	ll p = bin_exp(x, y / 2);
+	return (y % 2 == 0) ? p * p : x * p * p;
+}
+
+ll mod_inv(ll x, ll m) {
+	return bin_exp_mod(x, m - 2, m);
+}
+
 int main() {
 	FAST_IO
 	FILE_IN
