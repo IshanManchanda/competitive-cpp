@@ -32,6 +32,10 @@ typedef vector<vi> vvi;
 typedef vector<int> vl;
 typedef vector<vi> vvl;
 
+
+/* ************************************ */
+
+
 ll bin_exp_mod(ll x, ll y, ll m) {
 	if (y == 0) return 1;
 	ll p = bin_exp_mod(x, y / 2, m) % m;
@@ -46,8 +50,12 @@ ll bin_exp(ll x, ll y) {
 }
 
 ll mod_inv(ll x, ll m) {
+	// Works when m is prime
 	return bin_exp_mod(x, m - 2, m);
 }
+
+
+/* ************************************ */
 
 int main() {
 	FAST_IO

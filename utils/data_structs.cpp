@@ -1,5 +1,5 @@
-//#pragma GCC optimize("O3,unroll-loops")
-//#pragma GCC target("avx,avx2,fma,tune=native")
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx,avx2,fma,tune=native")
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -40,14 +40,30 @@ typedef vector<vi> vvi;
 typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
+
+/* ************************************ */
+
+
+// Use to hash a vector. Syntax: unordered_set<vi, VectorHash> my_set;
+struct VectorHash {
+	size_t operator()(const std::vector<int>& v) const {
+		std::hash<int> hasher;
+		size_t seed = 0;
+		for (int i : v) {
+			seed ^= hasher(i) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+		}
+		return seed;
+	}
+};
+
+
+/* ************************************ */
+
+
 int main() {
 	FAST_IO
-	FILE_IN
-	FILE_OUT
 
-	TESTCASES {
-
-	}
-
+//	TESTCASES {
+//	}
 	cout << flush;
 }
