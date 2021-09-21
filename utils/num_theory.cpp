@@ -38,7 +38,7 @@ typedef vector<vi> vvl;
 
 ll bin_exp_mod(ll x, ll y, ll m) {
 	if (y == 0) return 1;
-	ll p = bin_exp_mod(x, y / 2, m) % m;
+	ll p = bin_exp_mod(x, y / 2, m);
 	p = (p * p) % m;
 	return (y % 2 == 0) ? p : (x * p) % m;
 }
