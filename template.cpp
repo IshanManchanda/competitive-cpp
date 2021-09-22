@@ -3,6 +3,8 @@
 
 #include <bits/stdc++.h>
 using namespace std;
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
 
 #define F first
 #define S second
@@ -29,6 +31,9 @@ using namespace std;
 #define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
 #define NEWL "\n";
+
+typedef tree<int, null_type, less<int>, rb_tree_tag,
+	tree_order_statistics_node_update> indexed_set;
 
 typedef long long ll;
 //typedef __int128_t lll;
