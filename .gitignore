@@ -1,7 +1,11 @@
 .autocp
+
 *.exe
+*.out
+
 current.cpp
 archive*.cpp
+
 input*.txt
 output*.txt
 
