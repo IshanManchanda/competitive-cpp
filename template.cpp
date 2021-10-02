@@ -27,7 +27,7 @@ using namespace std;
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
-#define MOD (1'000'000'007)
+//#define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
 #define NEWL "\n";
 
