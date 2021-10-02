@@ -1,5 +1,5 @@
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx,avx2,fma,tune=native")
+//#pragma GCC optimize("O3,unroll-loops")
+//#pragma GCC target("avx,avx2,fma,tune=native")
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -49,8 +49,8 @@ ll bin_exp(ll x, ll y) {
 	return (y % 2 == 0) ? p * p : x * p * p;
 }
 
+// Works when m is prime, use extended GCD otherwise
 ll mod_inv(ll x, ll m) {
-	// Works when m is prime
 	return bin_exp_mod(x, m - 2, m);
 }
 

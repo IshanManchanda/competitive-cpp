@@ -1,5 +1,5 @@
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx,avx2,fma,tune=native")
+//#pragma GCC optimize("O3,unroll-loops")
+//#pragma GCC target("avx,avx2,fma,tune=native")
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -52,6 +52,18 @@ struct VectorHash {
 		for (int i : v) {
 			seed ^= hasher(i) + 0x9e3779b9 + (seed<<6) + (seed>>2);
 		}
+		return seed;
+	}
+};
+
+
+// Use to hash a pair of ints. Syntax: unordered_map<pi, int, PairHash> my_map;
+struct PairHash {
+	size_t operator()(const std::pair<int, int>& p) const {
+		std::hash<int> hasher;
+		size_t seed = 0;
+		seed ^= hasher(p.F) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+		seed ^= hasher(p.S) + 0x9e3779b9 + (seed<<6) + (seed>>2);
 		return seed;
 	}
 };
