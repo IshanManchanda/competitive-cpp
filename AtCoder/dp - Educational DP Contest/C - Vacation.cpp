@@ -54,9 +54,23 @@ int main() {
 //	FILE_IN
 //	FILE_OUT
 
-	TESTCASES {
+//	TESTCASES {
+	int n;
+	cin >> n;
+	int a[n][3], dp[n][3];
+	REP(i, 0, n) cin >> a[i][0] >> a[i][1] >> a[i][2];
+	dp[0][0] = a[0][0];
+	dp[0][1] = a[0][1];
+	dp[0][2] = a[0][2];
 
+	REP(i, 1, n) {
+		dp[i][0] = a[i][0] + max(dp[i - 1][1], dp[i - 1][2]);
+		dp[i][1] = a[i][1] + max(dp[i - 1][2], dp[i - 1][0]);
+		dp[i][2] = a[i][2] + max(dp[i - 1][0], dp[i - 1][1]);
 	}
+
+	cout << *max_element(dp[n - 1], dp[n - 1] + 3);
+//	}
 
 	cout << flush;
 }

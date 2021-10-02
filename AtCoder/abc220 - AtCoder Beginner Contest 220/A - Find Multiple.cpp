@@ -54,9 +54,14 @@ int main() {
 //	FILE_IN
 //	FILE_OUT
 
-	TESTCASES {
+//	TESTCASES {
+	int a, b, c;
+	cin >> a >> b >> c;
+	if (a % c == 0) cout << a;
+	else if (a + c - (a % c) > b) cout << "-1";
+	else cout << a + c - (a % c);
 
-	}
+//	}
 
 	cout << flush;
 }

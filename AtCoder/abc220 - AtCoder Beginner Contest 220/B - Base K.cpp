@@ -54,9 +54,24 @@ int main() {
 //	FILE_IN
 //	FILE_OUT
 
-	TESTCASES {
-
+//	TESTCASES {
+	int a, b, k;
+	cin >> k >> a >> b;
+	ll ad = 0, bd = 0, mult = 1;
+	while (a > 0) {
+		ad += (a % 10) * mult;
+		mult *= k;
+		a /= 10;
 	}
+	mult = 1;
+	while (b > 0) {
+		bd += (b % 10) * mult;
+		mult *= k;
+		b /= 10;
+	}
+	cout << ad * bd;
+
+//	}
 
 	cout << flush;
 }

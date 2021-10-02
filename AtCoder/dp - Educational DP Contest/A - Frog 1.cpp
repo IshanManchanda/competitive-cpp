@@ -54,9 +54,20 @@ int main() {
 //	FILE_IN
 //	FILE_OUT
 
-	TESTCASES {
+//	TESTCASES {
+	int n;
+	cin >> n;
+	int h[n], dp[n];
+	REP(i, 0, n) cin >> h[i];
 
+	dp[0] = 0;
+	dp[1] = abs(h[1] - h[0]);
+	REP(i, 2, n) {
+		dp[i] = min(dp[i - 1] + abs(h[i] - h[i - 1]), dp[i - 2] + abs(h[i] - h[i - 2]));
 	}
+	cout << dp[n - 1];
+
+//	}
 
 	cout << flush;
 }

@@ -54,9 +54,28 @@ int main() {
 //	FILE_IN
 //	FILE_OUT
 
-	TESTCASES {
+//	TESTCASES {
+	int n, w;
+	cin >> n >> w;
+	int ws[n], v[n];
+	REP(i, 0, n) cin >> ws[i] >> v[i];
 
+	ll mv = 0;
+	map<int, ll> dp1, dp2;
+	dp2[0] = 0;
+	REP(i, 0, n) {
+//		copy(dp1.begin(), dp1.end(), dp2.begin());
+		dp1 = dp2;
+		for (auto x = dp1.rbegin(); x != dp1.rend(); ++x) {
+			if ((*x).F + ws[i] <= w) {
+				dp2[(*x).F + ws[i]] = max(dp1[(*x).F + ws[i]], (*x).S + v[i]);
+				mv = max(mv, (*x).S + v[i]);
+			}
+		}
 	}
+	cout << mv;
+
+//	}
 
 	cout << flush;
 }

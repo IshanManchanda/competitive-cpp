@@ -54,9 +54,26 @@ int main() {
 //	FILE_IN
 //	FILE_OUT
 
-	TESTCASES {
+//	TESTCASES {
+	int n;
+	cin >> n;
+	int a[n];
+	ll x, ps = 0, ans;
+	REP(i, 0, n) cin >> a[i];
+	cin >> x;
+	REP(i, 0, n) ps += a[i];
 
+	ans = n * (x / ps);
+	x = x % ps;
+	int i = 0;
+	ps = 0;
+	while (a[i] + ps <= x) {
+		ps += a[i];
+		++i;
 	}
+	cout << ans + i + 1;
+
+//	}
 
 	cout << flush;
 }

@@ -27,7 +27,7 @@ using namespace std;
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
-#define MOD (1'000'000'007)
+//#define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
 #define NEWL "\n";
 
@@ -54,9 +54,31 @@ int main() {
 //	FILE_IN
 //	FILE_OUT
 
-	TESTCASES {
-
+//	TESTCASES {
+#define MOD 998244353
+	int n;
+	cin >> n;
+	int a[n];
+	REP(i, 0, n) cin >> a[i];
+	ll dp[n][10];
+	REP(i, 0, n) REP(j, 0, 10) dp[i][j] = 0;
+	dp[n - 1][a[0]] = 1;
+	RREP(i, n - 1, 0) {
+		REP(j, 0, 10) {
+			if (!dp[i][j]) continue;
+			int p = (j * a[n - i]) % 10, s = (j + a[n - i]) % 10;
+			dp[i - 1][p] += dp[i][j];
+			dp[i - 1][p] %= MOD;
+			dp[i - 1][s] += dp[i][j];
+			dp[i - 1][s] %= MOD;
+		}
 	}
+	REP(i, 0, 10) {
+		cout << dp[0][i] << NEWL;
+	}
+
+
+//	}
 
 	cout << flush;
 }
