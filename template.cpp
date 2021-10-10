@@ -17,7 +17,7 @@ using namespace std;
 #define REP(i, a, b) for (ll i = (a); i < (b); ++i)
 #define RREP(i, a, b) for (ll i = (a); i > (b); --i)
 
-#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr);;
+#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr);
 #define FILE_IN freopen("input.txt", "r", stdin);
 #define FILE_OUT freopen("output.txt", "w", stdout);
 
