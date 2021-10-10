@@ -33,9 +33,10 @@ typedef vector<int> vl;
 typedef vector<vi> vvl;
 
 
-/* ************************************ */
+/* ************************************************************************** */
 
 
+// x^y mod m in log(y) time
 ll bin_exp_mod(ll x, ll y, ll m) {
 	if (y == 0) return 1;
 	ll p = bin_exp_mod(x, y / 2, m);
@@ -55,7 +56,16 @@ ll mod_inv(ll x, ll m) {
 }
 
 
-/* ************************************ */
+// XOR of all numbers from 1 to n
+ll xor1n(ll n) {
+	if (n % 4 == 0) return n;
+	if (n % 4 == 1) return 1;
+	if (n % 4 == 2) return n + 1;
+	return 0;
+}
+
+
+/* ************************************************************************** */
 
 int main() {
 	FAST_IO
