@@ -17,7 +17,9 @@ using namespace std;
 #define REP(i, a, b) for (ll i = (a); i < (b); ++i)
 #define RREP(i, a, b) for (ll i = (a); i > (b); --i)
 
-#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr);;
+#define cinai(a, n) REP(ii, 0, (n)) cin >> (a)[ii];
+
+#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 #define FILE_IN freopen("input.txt", "r", stdin);
 #define FILE_OUT freopen("output.txt", "w", stdout);
 
@@ -27,7 +29,7 @@ using namespace std;
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
-//#define MOD (1'000'000'007)
+#define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
 #define NEWL "\n";
 
@@ -48,15 +50,33 @@ typedef vector<vi> vvi;
 typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
+char b[8][8];
+int ctr = 0, ld[15], rd[15], r[7];
+
+void solve(int c) {
+	if (c == 8) {
+		ctr++;
+		return;
+	}
+	REP(i, 0, 8) {
+		if (b[i][c] == '.' && !r[i] && !ld[i + c] && !rd[i + 7 - c]) {
+			r[i] = ld[i + c] = rd[i + 7 - c] = 1;
+			solve(c + 1);
+			r[i] = ld[i + c] = rd[i + 7 - c] = 0;
+		}
+	}
+}
 
 int main() {
 	FAST_IO
 //	FILE_IN
 //	FILE_OUT
 
-	TESTCASES {
-
-	}
+//	TESTCASES {
+	REP(i, 0, 8) REP(j, 0, 8) cin >> b[i][j];
+	solve(0);
+	cout << ctr;
+//	}
 
 	cout << flush;
 }

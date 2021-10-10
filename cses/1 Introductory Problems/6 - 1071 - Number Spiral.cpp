@@ -17,7 +17,9 @@ using namespace std;
 #define REP(i, a, b) for (ll i = (a); i < (b); ++i)
 #define RREP(i, a, b) for (ll i = (a); i > (b); --i)
 
-#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr);;
+#define cinai(a, n) REP(ii, 0, (n)) cin >> (a)[ii];
+
+#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 #define FILE_IN freopen("input.txt", "r", stdin);
 #define FILE_OUT freopen("output.txt", "w", stdout);
 
@@ -27,7 +29,7 @@ using namespace std;
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
-//#define MOD (1'000'000'007)
+#define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
 #define NEWL "\n";
 
@@ -48,14 +50,23 @@ typedef vector<vi> vvi;
 typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
-
 int main() {
 	FAST_IO
 //	FILE_IN
 //	FILE_OUT
 
 	TESTCASES {
+		ll x, y;
+		cin >> x >> y;
 
+		if (x >= y) {
+			if (x & 1) cout << (x - 1) * (x - 1) + y << "\n";
+			else cout << x * x - y + 1 << "\n";
+		}
+		else {
+			if (y & 1) cout << y * y - x + 1 << "\n";
+			else cout << (y - 1) * (y - 1) + x << "\n";
+		}
 	}
 
 	cout << flush;

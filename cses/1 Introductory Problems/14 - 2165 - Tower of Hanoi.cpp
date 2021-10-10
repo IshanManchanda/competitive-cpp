@@ -17,7 +17,9 @@ using namespace std;
 #define REP(i, a, b) for (ll i = (a); i < (b); ++i)
 #define RREP(i, a, b) for (ll i = (a); i > (b); --i)
 
-#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr);;
+#define cinai(a, n) REP(ii, 0, (n)) cin >> (a)[ii];
+
+#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 #define FILE_IN freopen("input.txt", "r", stdin);
 #define FILE_OUT freopen("output.txt", "w", stdout);
 
@@ -27,7 +29,7 @@ using namespace std;
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
-//#define MOD (1'000'000'007)
+#define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
 #define NEWL "\n";
 
@@ -48,15 +50,28 @@ typedef vector<vi> vvi;
 typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
+void solve(int n, int from, int to, int aux) {
+	if (n == 1) {
+		cout << from << " " << to << "\n";
+		return;
+	}
+
+	solve(n - 1, from, aux, to);
+	cout << from << " " << to << "\n";
+	solve(n - 1, aux, to, from);
+}
 
 int main() {
 	FAST_IO
 //	FILE_IN
 //	FILE_OUT
 
-	TESTCASES {
-
-	}
+//	TESTCASES {
+	int n;
+	cin >> n;
+	cout << (1LL << n) - 1 << "\n";
+	solve(n, 1, 3, 2);
+//	}
 
 	cout << flush;
 }
