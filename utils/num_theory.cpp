@@ -36,6 +36,23 @@ typedef vector<vi> vvl;
 /* ************************************************************************** */
 
 
+// Prime factors of all numbers from 2 to MAXN
+#define MAXN ((int) 1.5e7 + 7)
+int spf[MAXN];  // Smallest Prime Factor
+
+void sieve() {
+	spf[1] = 1;
+	for (int i = 2; i < MAXN; i++) spf[i] = i;
+	for (int i = 4; i < MAXN; i += 2) spf[i] = 2;
+
+	for (int i = 3; i * i < MAXN; i++) {
+		if (spf[i] == i)
+			for (int j = i * i; j < MAXN; j += i)
+				if (spf[j] == j) spf[j] = i;
+	}
+}
+
+
 // x^y mod m in log(y) time
 ll bin_exp_mod(ll x, ll y, ll m) {
 	if (y == 0) return 1;
