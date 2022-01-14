@@ -57,42 +57,36 @@ int main() {
 //	FILE_OUT
 
 //	TESTCASES {
-	int n, m;
+	int n, m, y;
 	cin >> n;
-	pair<string, int> a[n];
+
+	map<string, int> a;
+	string s;
 	REP(i, 0, n) {
-		cin >> a[i].F >> a[i].S;
+		cin >> s >> y;
+		a[s] = max(a[s], y);
 	}
+
 	cin >> m;
 	string b[m];
 	REP(i, 0, m) {
 		cin >> b[i];
 	}
-
-	sort(a, a + n, greater<>());
 	sort(b, b + m, greater<>());
-	string s2;
-	int i = 0, j = 0, date = 9999;
-	while (j < m) {
-		while (i < n && a[i].F > b[j]) i++;
-
-		if (i >= n || a[i].F < b[j]) {
-			cout << b[j] << endl;
+	string ans;
+	int date = 9999;
+	REP(i, 0, m) {
+		if (a.find(b[i]) == a.end()) {
+			cout << b[i] << endl;
 			return 0;
 		}
-		else if (a[i].F == b[j]) {
-			if (a[i].S < date) {
-				s2 = a[i].F;
-				date = a[i].S;
-			}
-			else if (a[i].S == date) {
-				if (a[i].F > s2) s2 = a[i].F;
-			}
-			i++;
-			j++;
+
+		if (a[b[i]] < date) {
+			ans = b[i];
+			date = a[b[i]];
 		}
 	}
-	cout << s2 << endl;
+	cout << ans << endl;
 //	}
 	cout << flush;
 }
