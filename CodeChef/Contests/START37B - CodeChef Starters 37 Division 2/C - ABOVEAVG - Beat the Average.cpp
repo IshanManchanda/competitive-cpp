@@ -38,7 +38,6 @@ using namespace std;
 /* find_by_order(k) and order_of_key(x) */
 
 typedef long long ll;
-typedef unsigned long long ull;
 //typedef __int128_t lll;
 //typedef long double ld;
 typedef pair<int, int> pi;
@@ -54,11 +53,14 @@ int main() {
 	FAST_IO
 //	FILE_IN
 //	FILE_OUT
-//	cout << setprecision(19);
-	// TODO: get a prime/prime factor precompute tool.
 
 	TESTCASES {
+		ll n, m, x, ans;
+		cin >> n >> m >> x;
+		if (m == x) ans = 0;
+		else ans = (n * x) / (x + 1);
 
+		cout << ans << NEWL;
 	}
 
 	cout << flush;

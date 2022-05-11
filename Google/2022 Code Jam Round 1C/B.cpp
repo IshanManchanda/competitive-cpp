@@ -38,7 +38,6 @@ using namespace std;
 /* find_by_order(k) and order_of_key(x) */
 
 typedef long long ll;
-typedef unsigned long long ull;
 //typedef __int128_t lll;
 //typedef long double ld;
 typedef pair<int, int> pi;
@@ -54,11 +53,34 @@ int main() {
 	FAST_IO
 //	FILE_IN
 //	FILE_OUT
-//	cout << setprecision(19);
-	// TODO: get a prime/prime factor precompute tool.
 
-	TESTCASES {
+	TESTCASES1 {
+		int n, k;
+		cin >> n >> k;
+		ll a[n];
+		REP(i, 0, n) cin >> a[i];
 
+		ll sum = accumulate(a, a + n, 0ll);
+		ll square_of_sum = sum * sum;
+		ll sum_of_squares = 0ll;
+		REP(i, 0, n) {
+			sum_of_squares += a[i] * a[i];
+		}
+
+		if (sum == 0 && sum_of_squares == 0) {
+			CASEOUT << "1\n";
+		}
+		else if (sum == 0) {
+			CASEOUT << "IMPOSSIBLE\n";
+		}
+		else if ((sum_of_squares - square_of_sum) % (2 * sum)) {
+			CASEOUT << "IMPOSSIBLE\n";
+		}
+		else {
+			CASEOUT << (sum_of_squares - square_of_sum) / (2 * sum) << "\n";
+		}
+
+		cout << flush;
 	}
 
 	cout << flush;

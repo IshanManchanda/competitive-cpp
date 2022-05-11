@@ -38,7 +38,6 @@ using namespace std;
 /* find_by_order(k) and order_of_key(x) */
 
 typedef long long ll;
-typedef unsigned long long ull;
 //typedef __int128_t lll;
 //typedef long double ld;
 typedef pair<int, int> pi;
@@ -52,13 +51,20 @@ typedef vector<vi> vvl;
 
 int main() {
 	FAST_IO
+	// TODO: get a prime/prime factor precompute tool.
 //	FILE_IN
 //	FILE_OUT
 //	cout << setprecision(19);
-	// TODO: get a prime/prime factor precompute tool.
 
 	TESTCASES {
-
+		int n, k;
+		cin >> n >> k;
+		int x = 2;
+		while (k % x == 0) x++;
+		REP(i, 0, n) {
+			cout << x * (i + 1) << " ";
+		}
+		cout << NEWL;
 	}
 
 	cout << flush;

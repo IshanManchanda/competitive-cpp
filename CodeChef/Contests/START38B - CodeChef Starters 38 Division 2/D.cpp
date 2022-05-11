@@ -1,4 +1,4 @@
-//#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC optimize("O3,unroll-loops")
 //#pragma GCC target("avx,avx2,fma,tune=native")
 #pragma GCC target("avx,avx2,fma")
 
@@ -55,10 +55,22 @@ int main() {
 //	FILE_IN
 //	FILE_OUT
 //	cout << setprecision(19);
-	// TODO: get a prime/prime factor precompute tool.
 
 	TESTCASES {
+		ull n, k;
+		cin >> n >> k;
+		ull a[n];
+		REP(i, 0, n) cin >> a[i];
+		ull ans = 0;
+		map<ull, vi> c;
+		REP(i, 0, n) c[a[i]].PB(i);
 
+		REP(i, 0, n - 1) {
+			ull t = (k - a[i]) ^ a[i];
+			auto a1 = c[t].end() - upper_bound(c[t].begin(), c[t].end(), i);
+			ans += a1;
+		}
+		cout << ans << "\n";
 	}
 
 	cout << flush;
