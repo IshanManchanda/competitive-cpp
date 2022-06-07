@@ -27,7 +27,7 @@ using namespace std;
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
-//#define MOD (1'000'000'007)
+#define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
 #define NEWL "\n";
 
@@ -38,28 +38,58 @@ using namespace std;
 /* find_by_order(k) and order_of_key(x) */
 
 typedef long long ll;
-typedef unsigned long long ull;
 //typedef __int128_t lll;
 //typedef long double ld;
 typedef pair<int, int> pi;
 typedef pair<ll, ll> pl;
 typedef tuple<int, int, int> ti;
 typedef vector<int> vi;
-typedef vector<ll> vl;
 typedef vector<vi> vvi;
-typedef vector<vl> vvl;
-
+typedef vector<ll> vl;
+typedef vector<vi> vvl;
 
 int main() {
-	FAST_IO
+    FAST_IO
+    // TODO: get a prime/prime factor precompute tool.
 //	FILE_IN
 //	FILE_OUT
 //	cout << setprecision(19);
-	// TODO: get a prime/prime factor precompute tool.
 
-	TESTCASES {
+//	TESTCASES {
+    int k;
+    string n;
+    cin >> n >> k;
+    set<char> s;
+    char temp;
+    REP(i, 0, k) {
+        cin >> temp;
+        s.insert(temp);
+    }
 
-	}
+    int flag = 1;
+    while (flag) {
+        flag = 0;
+        REP(i, 0, n.length()) {
+            while (s.count(n[i])) {
+                if (n[i] == '9') {
+                    flag = 1;
+                    if (i == 0) {
+                        n.insert(0, 1, '1');
+                        REP(j, 1, n.length()) n[j] = '0';
+                        break;
+                    }
+                    n[i - 1]++;
+                    REP(j, i, n.length()) n[j] = '0';
+                    break;
+                }
+                n[i]++;
+                REP(j, i + 1, n.length()) n[j] = '0';
+                if (flag) break;
+            }
+        }
+    }
+    cout << n;
+//	}
 
-	cout << flush;
+    cout << flush;
 }
