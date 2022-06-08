@@ -56,6 +56,7 @@ int main() {
 //	FILE_OUT
 //	cout << setprecision(19);
 	// TODO: get a prime/prime factor precompute tool.
+//    memset(dp, -1, sizeof(dp));
 
 	TESTCASES {
 
