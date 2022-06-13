@@ -1,4 +1,4 @@
-//#pragma GCC optimize("O3,unroll-loops")
+//#pragma GCC optimize("O2,unroll-loops")
 //#pragma GCC target("avx,avx2,fma,tune=native")
 #pragma GCC target("avx,avx2,fma")
 
@@ -27,7 +27,7 @@ using namespace std;
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
-//#define MOD (1'000'000'007)
+#define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
 #define NEWL "\n";
 
@@ -40,27 +40,25 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 //typedef __int128_t lll;
-//typedef long double ld;
+typedef long double ld;
 typedef pair<int, int> pi;
 typedef pair<ll, ll> pl;
 typedef tuple<int, int, int> ti;
 typedef vector<int> vi;
-typedef vector<ll> vl;
 typedef vector<vi> vvi;
+typedef vector<ll> vl;
 typedef vector<vl> vvl;
 
-
 int main() {
-	FAST_IO
+    FAST_IO
 //	FILE_IN
 //	FILE_OUT
 //	cout << setprecision(19);
-	// TODO: get a prime/prime factor precompute tool.
 //    memset(dp, -1, sizeof(dp));
 
-	TESTCASES {
+    TESTCASES {
 
-	}
+    }
 
-	cout << flush;
+    cout << flush;
 }

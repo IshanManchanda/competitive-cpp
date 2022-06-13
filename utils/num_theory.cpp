@@ -45,16 +45,26 @@ void sieve() {
 	for (int i = 2; i < MAXN; i++) spf[i] = i;
 	for (int i = 4; i < MAXN; i += 2) spf[i] = 2;
 
-	for (int i = 3; i * i < MAXN; i++) {
+	for (int i = 3; i * i < MAXN; i++)
 		if (spf[i] == i)
 			for (int j = i * i; j < MAXN; j += i)
 				if (spf[j] == j) spf[j] = i;
-	}
 }
 
 
-// x^y mod m in log(y) time
+// x^y mod m in O(log y)
 ll bin_exp_mod(ll x, ll y, ll m) {
+    x %= m;
+    ll ans = 1LL;
+    while (y) {
+        if (y & 1) ans = (ans * x) % m;
+        x = (x * x) % m;
+        y >>= 1;
+    }
+    return ans;
+}
+// recursive version
+ll bin_exp_mod_recur(ll x, ll y, ll m) {
 	if (y == 0) return 1;
 	ll p = bin_exp_mod(x, y / 2, m);
 	p = (p * p) % m;
@@ -62,18 +72,52 @@ ll bin_exp_mod(ll x, ll y, ll m) {
 }
 
 ll bin_exp(ll x, ll y) {
+    ll ans = 1LL;
+    while (y) {
+        if (y & 1) ans *= x;
+        x *= x;
+        y >>= 1;
+    }
+    return ans;
+}
+// recursive version
+ll bin_exp_recur(ll x, ll y) {
 	if (y == 0) return 1;
-	ll p = bin_exp(x, y / 2);
+	ll p = bin_exp_recur(x, y / 2);
 	return (y % 2 == 0) ? p * p : x * p * p;
 }
 
 // Works when m is prime, use extended GCD otherwise
-ll mod_inv(ll x, ll m) {
+inline ll mod_inv(ll x, ll m) {
 	return bin_exp_mod(x, m - 2, m);
 }
 
+// Factorial of all numbers from 2 to MAXN
+#define MAXN ((int) 1.5e7 + 7)
+ll fact[MAXN + 1];
+
+void pre(ll m) {
+    fact[0] = 1;
+    for (ll i = 1; i <= MAXN; i++)
+        fact[i] = (i * fact[i - 1]) % m;
+}
+inline ll nPr(ll n, ll r, ll m) {
+    return (fact[n] * mod_inv(fact[n - r], m)) % m;
+}
+inline ll nCr(ll n, ll r, ll m) {
+    return (nPr(n, r, m) * mod_inv(fact[r], m)) % m;
+}
+ll fact_mod_inv[MAXN + 1];
+void pre_mod_inv(ll m) {
+    fact_mod_inv[MAXN] = mod_inv(fact[MAXN], m);
+    for (ll i = MAXN - 1; i > 0; i--)
+        fact_mod_inv[i] = (fact_mod_inv[i + 1] * i) % m;
+}
 
 // XOR of all numbers from 1 to n
+//inline ll xor1n(ll n) {
+//    return (n % 4 == 0) ? n : ((n % 4 == 1) ? 1 : ((n % 4 == 2) ? n + 1 : 0));
+//}
 ll xor1n(ll n) {
 	if (n % 4 == 0) return n;
 	if (n % 4 == 1) return 1;
