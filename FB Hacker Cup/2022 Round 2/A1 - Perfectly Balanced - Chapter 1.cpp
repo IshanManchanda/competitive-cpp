@@ -65,10 +65,52 @@ typedef vector<vl> vvl;
 
 int main() {
     FAST_IO
-//	FILE_IN
-//	FILE_OUT
+	FILE_IN
+	FILE_OUT
 //	cout << setprecision(19);
 
-    TESTCASES {}
+    TESTCASES1 {
+        string s;
+        cin >> s;
+        int q;
+        cin >> q;
+        int pref[s.length() + 1][26];
+        REP(i, 0, 26) pref[0][i] = 0;
+        REP(i, 0, s.length()) {
+            REP(j, 0, 26) {
+                pref[i + 1][j] = pref[i][j] + (s[i] - 'a' == j);
+            }
+        }
+        /*REP(i, 0, s.length() + 1) {
+            REP(j, 0, 26) {
+                cout << pref[i][j] << ' ';
+
+            }
+            cout << endl;
+        }
+        cout << endl;*/
+
+        int ans = 0;
+        REP(_, 0, q) {
+            int l, r;
+            cin >> l >> r;
+            if ((r - l) % 2 != 0) continue;
+            int odd = 0;
+            REP(i, 0, 26) {
+                if ((pref[r][i] - pref[l - 1][i]) % 2) odd++;
+            }
+            if (odd != 1) continue;
+            int mid = (l + r) / 2, x1 = 0, x2 = 0;
+//            cout << l << " " << r << " " << mid << endl;
+            REP(i, 0, 26) {
+//                cout << ('a' + i) << ": " << pref[r][i] << " " << pref[mid][i] << " " << pref[l - 1][i] << endl;
+                if ((pref[r][i] - pref[l - 1][i]) != (pref[mid][i] - pref[l - 1][i]) * 2) x1++;
+                if ((pref[r][i] - pref[l - 1][i]) != (pref[mid - 1][i] - pref[l - 1][i]) * 2) x2++;
+            }
+//            cout << x1 << " " << x2 << endl;
+            if (x1 == 1 || x2 == 1) ans++;
+        }
+        CASEOUT << ans << endl;
+    }
     cout << flush;
 }

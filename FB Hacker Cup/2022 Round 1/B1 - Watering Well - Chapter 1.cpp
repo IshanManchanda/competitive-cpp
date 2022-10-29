@@ -65,10 +65,38 @@ typedef vector<vl> vvl;
 
 int main() {
     FAST_IO
-//	FILE_IN
-//	FILE_OUT
+    FILE_IN
+    FILE_OUT
 //	cout << setprecision(19);
 
-    TESTCASES {}
+    TESTCASES1 {
+        int n, q;
+        cin >> n;
+        ll x1[n], y1[n];
+        ll s = 0, x1s = 0, x2s = 0, y1s = 0, y2s = 0;
+        ll x1ss = 0, x2ss = 0, y1ss = 0, y2ss = 0;
+
+        REP(i, 0, n) {
+            cin >> x1[i] >> y1[i];
+
+            x1s = (x1s + x1[i]) % MOD;
+            x1ss = (x1ss + x1[i] * x1[i]) % MOD;
+            y1s = (y1s + y1[i]) % MOD;
+            y1ss = (y1ss + y1[i] * y1[i]) % MOD;
+        }
+        cin >> q;
+        ll x2[q], y2[q];
+        REP(i, 0, q) {
+            cin >> x2[i] >> y2[i];
+
+            x2s = (x2s + x2[i]) % MOD;
+            x2ss = (x2ss + x2[i] * x2[i]) % MOD;
+            y2s = (y2s + y2[i]) % MOD;
+            y2ss = (y2ss + y2[i] * y2[i])  % MOD;
+        }
+
+        s += (((x1ss + y1ss) % MOD) * q) % MOD + (((x2ss + y2ss) % MOD * n) % MOD) - 2 * ((x1s * x2s + y1s * y2s)) % MOD;
+        CASEOUT << (s % MOD + MOD) % MOD << endl;
+    }
     cout << flush;
 }
