@@ -70,25 +70,23 @@ int main() {
 //	cout << setprecision(19);
 
 //    TESTCASES {}
-//    int n;
-//    cin >> n;
-    int n, d = 0;
+    int n;
     cin >> n;
-    vector<char> ans;
-
-    REP(i, 0, n) {
-        int x, y;
-        cin >> x >> y;
-        if (d + x <= 500) {
-            ans.PB('A');
-            d += x;
-        }
-        else {
-            ans.PB('G');
-            d -= y;
-        }
+    int n1, n2, n3, x1, x2, x3;
+    cin >> n1 >> x1;
+    cin >> n2 >> x2;
+    cin >> n3 >> x3;
+    int y3 = n - x1 - x2;
+    if (n3 <= y3) {
+        cout << x1 << " " << x2 << " " << y3;
     }
-    for (auto x : ans) cout << x;
+    else {
+        int y2 = n - x1 - n3;
+        if (n2 <= y2) {
+            cout << x1 << " " << y2 << " " << n3;
+        }
+        else cout << n - n2 - n3 << " " << n2 << " " << n3;
+    }
 
     cout << flush;
 }
