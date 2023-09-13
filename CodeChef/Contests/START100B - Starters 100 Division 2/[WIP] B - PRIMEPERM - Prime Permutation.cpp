@@ -92,75 +92,41 @@ int main() {
 //	cout << setprecision(11);
 
 
-    TESTCASES {
-        cinan(a, n);
-        ll s = 0;
-        for (auto x : a) s += x;
-        if (s % n != 0) {
-            cout << "NO\n";
-            continue;
-        }
-        ll avg = s / n;
-        // for each person, compute give and rec arrays
-        // people with zero can always exch
-        ll g[n], r[n], z = 0;
-        map<ll, ll> c, p2;
-        int flag = 0;
-        REP(i, 0, n) {
-            ll d = a[i] - avg, sign = 1;
-            if (d == 0) {
-                g[i] = r[i] = 0;
-                z++;
-                continue;
-            }
-            if (d < 0) sign = -1, d = -d;
-            // add powers of 2 here
-            if ((d & (d - 1)) == 0) {
-                p2[d] += sign;
-                continue;
-            }
+    const ll maxn = 100'000;
+    vi primes;
+    vector<bool> sieve(maxn + 2, true);
+    sieve[0] = sieve[1] = false;
+    for (ll i = 2; i <= maxn; i++) {
+        if (!sieve[i]) continue;
+        primes.PB(i);
+        for (ll j = i * i; j <= maxn; j += i) sieve[j] = false;
+    }
 
-            // normal operation for non-powers of 2
-            r[i] = d - (d & (d - 1));
-            for (g[i] = 1; g[i] <= d; g[i] <<= 1);
-            if (sign == -1) swap(g[i], r[i]);
-            if (abs(g[i] - r[i]) != d) {
-                flag = 1;
-                cout << "NO\n";
+    TESTCASES {
+        int n;
+        cin >> n;
+        int flag = 0;
+        for (auto p : primes) {
+            if (p >= n - 1) break;
+            if (sieve[n - p]) {
+                flag = p;
                 break;
             }
-
-            // WA: Expected NO, found YES
-            // What case is this happening for?
-
-            c[g[i]]++;
-            c[r[i]]--;
-
-//            cout << d << " " << r[i] << " " << g[i] << endl;
-//            cout << c << endl;
         }
-        if (flag) continue;
-//        cout << c << endl;
-//        cout << p2 << endl;
-//        continue;
-        flag = 1;
-        // match with powers of 2 in rev order
-        if (!p2.empty()) {
-            for (ll key = p2.rbegin()->ff; key > 1; key /= 2) {
-                c[key] += p2[key];
-//                cout << key << " " << c[key] << endl;
-                if (c[key] != 0) {
-                    // if this val is x, pass down -2x
-                    c[key / 2] += 2 * c[key];
-                    c[key] = 0;
-                }
-            }
-            c[1] += p2[1];
+        cout << n << ": ";
+        if (!flag) {
+            cout << "-1\n";
+            continue;
         }
-
-        for (auto x : c) if (x.ss != 0) flag = 0;
-        if (flag) cout << "YES\n";
-        else cout << "NO\n";
+        for (int i = flag + 1; i <= n; i++) {
+//            assert(sieve[abs(i - flag - i)]);
+            cout << i << " ";
+        }
+        for (int i = 1; i <= flag; i++) {
+//            assert(n - i);
+            cout << i << " ";
+        }
+        cout << "\n";
     }
 
 

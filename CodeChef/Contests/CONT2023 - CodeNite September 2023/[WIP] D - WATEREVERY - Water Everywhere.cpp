@@ -161,19 +161,13 @@ int main() {
     // all roots with root_incl marked true
 
     ll mod = 998244353;
-    ll sum1 = 0, num1 = 1;
+    ll ans = 0;
     REP(i, 0, n) {
         if (!root_incl[i]) continue;
-        num1 = (num1 * nums[i] + mod) % mod;
+        ll temp = (sums[i] * mod_inv(nums[i], mod)) % mod;
+        ans = (ans + temp) % mod;
     }
-    REP(i, 0, n) {
-        if (!root_incl[i]) continue;
-        sum1 = (sum1 + (sums[i] * (num1 * mod_inv(nums[i], mod) + mod) % mod + mod) % mod + mod) % mod;
-    }
-
-    // compute ans
-//    cout << sum1 << " " << num1 << endl;
-    cout << (sum1 * mod_inv(num1, mod) + mod) % mod;
+    cout << ans;
 //    }
 
     cout << flush;

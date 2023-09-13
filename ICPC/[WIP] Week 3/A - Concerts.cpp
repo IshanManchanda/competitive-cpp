@@ -84,7 +84,7 @@ inline ll mod_inv(ll x, ll m) {
     return bin_exp_mod(x, m - 2, m);
 }
 
-int dp[10007][1007];
+int dp[100002][302];
 
 
 int main() {
@@ -106,10 +106,10 @@ int main() {
     }
     string a, b;
     cin >> b >> a;
-    assert(a.size() == n);
-    assert(b.size() == k);
+    cout << a << endl;
+    cout << b << endl;
 
-    memset(dp, 0, 10006 * 1006);
+    memset(dp, 0, sizeof dp);
 //    REP(i, 0, n + 1) REP(j, 0, k + 1) dp[i][j] = 0;
     dp[0][0] = 1;
 
@@ -124,7 +124,7 @@ int main() {
                 // can take current
                 if (i + h[a[i] - 'A'] + 1 > n) continue;
 
-                dp[i + h[a[i] - 'A'] + 1][j + 1] = (dp[i + h[a[i] - 'A'] + 1][j + 1] + dp[i][j]) % MOD);
+                dp[i + h[a[i] - 'A'] + 1][j + 1] = (dp[i + h[a[i] - 'A'] + 1][j + 1] + dp[i][j]) % MOD;
             }
         }
     }
