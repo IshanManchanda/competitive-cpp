@@ -96,23 +96,20 @@ int main() {
 //    }
     ll n, k;
     cin >> n >> k;
-    ll a[n];
+    vl a(n);
     cinai(a, n);
     if (k == 1) {
         for (auto x : a) cout << x << " ";
         return 0;
     }
     if (k == n) {
-        sort(a, a + n);
+        sort(a.begin(), a.begin() + n);
         for (auto x : a) cout << x << " ";
         return 0;
     }
     ll min1 = INT_MAX;
     REP(ii, 1, k) min1 = min(min1, a[n - ii - 1]);
 
-    // THIS IS ONE CANDIDATE
-    // IF THERE IS EVER A RUN OF K ELEMENTS WHICH ARE IN SORTED ORDER
-    // THAT IS BETTER TO TAKE
     ll i = 0, j;
     while (i <= n - k) {
         j = i;
@@ -126,10 +123,20 @@ int main() {
         // check if
     }
 
+    // issue in this approach: was taking min in the entire window
+    // this is not necessary, as we can sort only a fraction of the
+    // last window such that these small values are not part of the sort
+
     ll ptr = n - k - 1;
-    while (ptr >= 0 && a[ptr] < min1) min1 = a[ptr--];
-    sort(a + ptr + 1, a + ptr + 1 + k);
-    for (auto x : a) cout << x << " ";
+    while (ptr >= 0 && a[ptr] < a[ptr + 1]) ptr--;
+    vl b(n);
+    copy(a.begin(), a.end(), b.begin());
+    sort(a.begin() + ptr + 1, a.begin() + ptr + 1 + k);
+    sort(b.begin() + n - k, b.begin() + n);
+    if (a > b)
+        for (auto x : a) cout << x << " ";
+    else
+        for (auto x : b) cout << x << " ";
 
     cout << flush;
 }
