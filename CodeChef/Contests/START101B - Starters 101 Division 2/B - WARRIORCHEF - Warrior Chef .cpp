@@ -27,7 +27,7 @@ using namespace std;
 
 #define TESTCASES ll tt; cin >> tt; while (tt--)
 #define TESTCASES1 ll tt; cin >> tt; REP(ttt, 1, tt + 1)
-#define CASEOUT cout << "Case #" << ttt << ": "
+#define CASEOUT cout << "Case " << ttt << ": "
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
@@ -84,6 +84,15 @@ inline ll mod_inv(ll x, ll m) {
     return bin_exp_mod(x, m - 2, m);
 }
 
+bool check(ll h, ll x, vl &a) {
+    for (auto a1 : a) {
+        if (a1 <= x) continue;
+        if (h <= a1) return false;
+        h -= a1;
+    }
+    return h > 0;
+}
+
 
 int main() {
     FAST_IO
@@ -91,6 +100,22 @@ int main() {
 //	FILE_OUT
 //	cout << setprecision(11);
 
-//    TESTCASES {}
+
+    TESTCASES {
+        ll n, h;
+        cin >> n >> h;
+        vl a(n);
+        cinai(a, n);
+
+        // lo -> never possible?
+        ll lo = -1, hi = 100005;
+        while (hi > lo + 1) {
+            ll mid = lo + (hi - lo) / 2;
+            if (check(h, mid, a)) hi = mid;
+            else lo = mid;
+        }
+        cout << hi << endl;
+    }
+
     cout << flush;
 }

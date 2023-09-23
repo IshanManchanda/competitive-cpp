@@ -87,10 +87,17 @@ inline ll mod_inv(ll x, ll m) {
 
 int main() {
     FAST_IO
-//	FILE_IN
-//	FILE_OUT
+    FILE_IN
+    FILE_OUT
 //	cout << setprecision(11);
 
-//    TESTCASES {}
+
+    TESTCASES1 {
+        int s, d, k;
+        cin >> s >> d >> k;
+        int pc = s + 2 * d, b = 2 * (s + d);
+        CASEOUT << (pc >= k && b >= k + 1 ? "YES\n" : "NO\n");
+    }
+
     cout << flush;
 }

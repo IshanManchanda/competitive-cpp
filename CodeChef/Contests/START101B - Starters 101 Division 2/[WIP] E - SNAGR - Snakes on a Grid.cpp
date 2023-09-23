@@ -27,7 +27,7 @@ using namespace std;
 
 #define TESTCASES ll tt; cin >> tt; while (tt--)
 #define TESTCASES1 ll tt; cin >> tt; REP(ttt, 1, tt + 1)
-#define CASEOUT cout << "Case #" << ttt << ": "
+#define CASEOUT cout << "Case " << ttt << ": "
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
@@ -91,6 +91,69 @@ int main() {
 //	FILE_OUT
 //	cout << setprecision(11);
 
-//    TESTCASES {}
+
+//    TESTCASES {
+//        ll n, l, r;
+//        cin >> n >> l >> r;
+//        cout << solve(n, l, r) << endl;
+//    }
+    int n, q;
+    cin >> n >> q;
+    string s[n];
+    REP(i, 0, n) cin >> s[i];
+    int qn[n];
+    REP(i, 0, q) cin >> qn[i];
+    ll time[n][n];
+    REP(i, 0, n) REP(j, 0, n) time[i][j] = INT_MAX;
+    REP(i, 0, n) {
+        int last = -1;
+        REP(j, 0, n) {
+            if (s[i][j] == 'R') last = j;
+            if (last == -1) continue;
+            time[i][j] = min(time[i][j], j - last);
+        }
+        last = -1;
+        RREP(j, n - 1, -1) {
+            if (s[i][j] == 'L') last = j;
+            if (last == -1) continue;
+            time[i][j] = min(time[i][j], last - j);
+        }
+    }
+    REP(j, 0, n) {
+        int last = -1;
+        REP(i, 0, n) {
+            if (s[i][j] == 'D') last = i;
+            if (last == -1) continue;
+            time[i][j] = min(time[i][j], i - last);
+        }
+        last = -1;
+        RREP(i, n - 1, -1) {
+            if (s[i][j] == 'U') last = i;
+            if (last == -1) continue;
+            time[i][j] = min(time[i][j], last - i);
+        }
+    }
+    ll ans[n + 4];
+    REP(t, 0, n + 1) {
+        // at this time, find the ans
+        bool vis[n][n];
+        REP(i, 0, n) REP(j, 0, n) vis[i][j] = false;
+        vis[0][0] = true;
+        priority_queue<pair<int, pi>> q1;
+        q1.push({-(time[0][0] >= t), {0, 0}});
+        while (!q1.empty()) {
+            auto t1 = q1.top();
+            q1.pop();
+            if (t1.ss.ff == n - 1 && t1.ss.ss == n - 1) {
+                ans[t] = t1.ff;
+                break;
+            }
+        }
+    }
+    for (auto q1n : qn) {
+        q1n = min(q1n, n);
+        cout << ans[q1n] << endl;
+    }
+
     cout << flush;
 }

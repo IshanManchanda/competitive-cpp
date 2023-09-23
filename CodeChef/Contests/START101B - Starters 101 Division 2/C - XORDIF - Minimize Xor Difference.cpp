@@ -27,7 +27,7 @@ using namespace std;
 
 #define TESTCASES ll tt; cin >> tt; while (tt--)
 #define TESTCASES1 ll tt; cin >> tt; REP(ttt, 1, tt + 1)
-#define CASEOUT cout << "Case #" << ttt << ": "
+#define CASEOUT cout << "Case " << ttt << ": "
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
@@ -91,6 +91,31 @@ int main() {
 //	FILE_OUT
 //	cout << setprecision(11);
 
-//    TESTCASES {}
+
+    TESTCASES {
+        int a, b;
+        cin >> a >> b;
+        if (a == b) {
+            cout << "0\n";
+            continue;
+        }
+        int i = 0;
+        for (i = 30; i >= 0; i--) {
+            if ((a & (1 << i)) == (b & (1 << i))) continue;
+            break;
+        }
+//        cout << i << "yey" << endl;
+        // first point of diff is i
+        if (b & (1 << i)) swap(a, b);
+        i--;
+        // a has the bit, b doesn't
+        int ans = 0;
+        for (; i >= 0; i--) {
+            if (b & (1 << i)) continue;
+            ans |= (1 << i);
+        }
+        cout << ans << endl;
+    }
+
     cout << flush;
 }

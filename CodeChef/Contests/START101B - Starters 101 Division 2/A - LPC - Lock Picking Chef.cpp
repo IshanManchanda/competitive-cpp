@@ -27,7 +27,7 @@ using namespace std;
 
 #define TESTCASES ll tt; cin >> tt; while (tt--)
 #define TESTCASES1 ll tt; cin >> tt; REP(ttt, 1, tt + 1)
-#define CASEOUT cout << "Case #" << ttt << ": "
+#define CASEOUT cout << "Case " << ttt << ": "
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
@@ -91,6 +91,24 @@ int main() {
 //	FILE_OUT
 //	cout << setprecision(11);
 
-//    TESTCASES {}
+
+    TESTCASES {
+        int n, m;
+        cin >> n >> m;
+        string s, k;
+        cin >> s >> k;
+        int ans = INT_MAX;
+        REP(i, 0, n - m + 1) {
+            int cost = 0;
+            REP(j, 0, m) {
+                cost += min(abs(s[i + j] - k[j]), min(abs(10 - s[i + j] + k[j]), abs(10 - k[j] + s[i + j])));
+            }
+//            cout << i << " " << cost << endl;
+
+            ans = min(ans, cost);
+        }
+        cout << ans << endl;
+    }
+
     cout << flush;
 }

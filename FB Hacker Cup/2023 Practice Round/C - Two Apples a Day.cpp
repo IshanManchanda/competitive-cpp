@@ -84,13 +84,58 @@ inline ll mod_inv(ll x, ll m) {
     return bin_exp_mod(x, m - 2, m);
 }
 
+ll recur(ll target, ll l, ll r, bool used, vl &a) {
+    // if called with used=1, return 1 or 0 if can or can't
+    // if called with used=0, return min size needed
+
+    // odd number, haven't used
+    if (l == r) return target - a[l];
+    // used + all matched, possible
+    if (r < l) return 1;
+    // proceed inwards
+    if (a[l] + a[r] == target) return recur(target, l + 1, r - 1, used, a);
+    if (used) return 0;
+
+    // have to use
+    // try using smaller, and if fail then larger
+    // we use target - a[r]
+    if (recur(target, l, r - 1, true, a)) return target - a[r];
+    // use target - a[l]
+    if (recur(target, l + 1, r, true, a)) return target - a[l];
+    return LLONG_MAX;
+}
+
 
 int main() {
     FAST_IO
-//	FILE_IN
-//	FILE_OUT
+    FILE_IN
+    FILE_OUT
 //	cout << setprecision(11);
 
-//    TESTCASES {}
+
+    TESTCASES1 {
+        ll n;
+        cin >> n;
+        n = 2 * n - 1;
+        vl a(n);
+        cinai(a, n);
+        sort(all(a));
+//        for (auto x : a) cout << x << " ";
+//        cout << flush;
+
+        ll ans = recur(a[0] + a[n - 1], 1, n - 2, false, a);
+
+        if (a[0] + a[n - 2] > a[n - 1])
+            if (recur(a[0] + a[n - 2], 1, n - 3, true, a))
+                ans = min(ans, a[0] + a[n - 2] - a[n - 1]);
+
+        if (a[1] + a[n - 1] > a[0])
+            if (recur(a[1] + a[n - 1], 2, n - 2, true, a))
+                ans = min(ans, a[1] + a[n - 1] - a[0]);
+
+        if (ans == LLONG_MAX) ans = -1;
+        CASEOUT << ans << "\n";
+    }
+
     cout << flush;
 }

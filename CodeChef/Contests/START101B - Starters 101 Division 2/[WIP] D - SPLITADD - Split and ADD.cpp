@@ -84,6 +84,98 @@ inline ll mod_inv(ll x, ll m) {
     return bin_exp_mod(x, m - 2, m);
 }
 
+//map<pair<ll, pair<ll, ll>>, ll> m;
+
+/*ll solve(ll n, ll l, ll r) {
+//    if (m.find({n, {l, r}}) != m.end()) return m[{n, {l, r}}];
+//    cout << n << " " << l << " " << r << endl;
+    if (n == 2) {
+        vi a({1, 2});
+        ll ans = 0;
+        REP(i, l, r + 1) ans += a[i - 1];
+//        return m[{n, {l, r}}] = ans;
+        return ans;
+    }
+
+    if (l == 1 && r == n) return (((n / 2) % MOD) * ((n + 1) % MOD)) % MOD;
+
+    // if k is <= n / 2, it will be in left half and have
+    // LSB set to 0
+    // now we get some value from solve, push it left by 1 and don't set the bit
+    // check if both L and R lie on the same side
+    // both on left
+    if (2 * r <= n) {
+        ll ans = solve(n / 2, l, r);
+        // each element needs to be * 2 - 1
+        // * 2 direct, for -1 we need number of elems = r - l + 1
+//        return m[{n, {l, r}}] = ((ans * 2) % MOD - (r - l + 1) + MOD) % MOD;
+        return ((ans * 2) % MOD - (r - l + 1) + MOD) % MOD;
+    }
+    if (2 * l > n) {
+        ll ans = solve(n / 2, l - n / 2, r - n / 2);
+        // each element needs to be * 2
+//        return m[{n, {l, r}}] = (ans * 2) % MOD;
+        return (ans * 2) % MOD;
+    }
+    if (l == 1) {
+        // l is 1, r is > n / 2
+        // we should know the sum from 1 to n/2
+        // some permutation of 1 -> n / 2
+        // sum of this is n/2 * n/2+1 whole/2
+        // and we perform our normal transform
+        ll ans = (((n / 2) % MOD) * ((n / 2) % MOD)) % MOD;
+        ans = (ans + solve(n, n / 2 + 1, r)) % MOD;
+//        cout << l << " " << r << ": " << ans << endl;
+        return ans;
+//        return (ans + solve(n, n / 2 + 1, r)) % MOD;
+    }
+    if (r == n) {
+        // n / 2 + 1 to n
+        // 5 6 7 8
+        // 2 4 6 8 -> 1 2 3 4
+        // 2,3: 1 2 3 4
+        // 1 3 2 4
+        // if you do -1, then all are
+        // 2 belongs to that part.
+        // we should only have 2 + 4 = 6 in ans
+        // ans = 4 * 2 = 8, wrong
+        ll ans = (((n / 2) % MOD) * ((n / 2) % MOD)) % MOD;
+        ans = ((ans + n / 2) % MOD + solve(n, l, n / 2)) % MOD;
+//        cout << l << " " << r << ": " << ans << endl;
+        return ans;
+//        return ((ans * 2) % MOD + solve(n, l, n / 2)) % MOD;
+    }
+    // l on left, r on right
+//    return m[{n, {l, r}}] = (solve(n, l, n / 2) + solve(n, n / 2 + 1, r)) % MOD;
+    return (solve(n, l, n / 2) + solve(n, n / 2 + 1, r)) % MOD;
+}*/
+
+
+ll solve2(ll n, ll l, ll r) {
+    if (n == 1) return 1;
+//    cout << n << " " << l << " " << r << endl;
+
+    if (l == 1 && r == n) return (((n / 2) % MOD) * ((n + 1) % MOD)) % MOD;
+    // if k is <= n / 2, it will be in left half and have
+    // LSB set to 0
+    // now we get some value from solve, push it left by 1 and don't set the bit
+    // check if both L and R lie on the same side
+    // both on left
+    if (2 * r <= n) {
+        ll ans = solve2(n / 2, l, r);
+        // each element needs to be * 2 - 1
+        // * 2 direct, for -1 we need number of elems = r - l + 1
+        return ((ans * 2) % MOD - (r - l + 1) + MOD) % MOD;
+    }
+    else if (2 * l > n) {
+        ll ans = solve2(n / 2, l - n / 2, r - n / 2);
+        // each element needs to be * 2
+        return (ans * 2) % MOD;
+    }
+    // l on left, r on right
+    return (solve2(n, l, n / 2) + solve2(n, n / 2 + 1, r)) % MOD;
+}
+
 
 int main() {
     FAST_IO
@@ -92,48 +184,22 @@ int main() {
 //	cout << setprecision(11);
 
 
-//    TESTCASES {
-//    }
-    ll n, h;
-    cin >> n >> h;
-    ll a[n + 1];
-    a[0] = 0;
-    REP(i, 1, n + 1) cin >> a[i];
-    ll p[n], f[n];
-    REP(i, 1, n) cin >> p[i] >> f[i];
-    ll dp[n + 1][h + 1][h + 1];
-    REP(i, 0, n + 1) REP(j, 0, h + 1) REP(k, 0, h + 1) dp[i][j][k] = LLONG_MAX;
-
-    // we start with h fuel and can return with any amount
-    REP(k, 0, h + 1) dp[0][h][k] = 0;
-    REP(i, 0, n) {
-        REP(j, 0, h + 1) {
-            REP(k, 0, h + 1) {
-                if (dp[i][j][k] == LLONG_MAX) continue;
-//                cout << i << " " << j << " " << k << "\n" << flush;
-                ll d = a[i + 1] - a[i];  // dist to next
-                if (j >= d && k + d <= h) {
-                    dp[i + 1][j - d][k + d] = min(dp[i + 1][j - d][k + d], dp[i][j][k]);
-                    dp[i + 1][min(j - d + f[i + 1], h)][k + d] = min(dp[i + 1][min(j - d + f[i + 1], h)][k + d], dp[i][j][k] + p[i + 1]);
-                    dp[i + 1][j - d][max(0ll, k + d - f[i + 1])] = min(dp[i + 1][j - d][max(0ll, k + d - f[i + 1])], dp[i][j][k] + p[i + 1]);
-                }
-            }
-        }
+    TESTCASES {
+        ll n, l, r;
+        cin >> n >> l >> r;
+        cout << solve2(n, l, r) << endl;
     }
-//    REP(i, 0, n + 1) {
-//        cout << i << "\n";
-//        REP(j, 0, h + 1) {
-//            cout << j << ": ";
-//            REP(k, 0, h + 1) cout << dp[i][j][k] << " ";
-//            cout << "\n";
+//    cout << solve(4, 2, 4);
+
+//    for (ll n = 2; n <= (1 << 10); n *= 2) {
+//        for (int i = 1; i <= n; i++) {
+//            for (int j = i; j <= n; j++) {
+//                ll s1 = solve(n, i, j), s2 = solve2(n, i, j);
+//                if (s1 != s2) cout << n << " " << i << " " << j << " -> " << s1 << ", " << s2 << endl;
+//                cout << flush;
+//            }
 //        }
-//        cout << "\n";
 //    }
-    // not an issue with -1
-    ll ans = LLONG_MAX;
-    REP(j, 1, h) ans = min(ans, dp[n][j][j]);
-    if (ans == LLONG_MAX) ans = -1;
-    cout << ans;
 
     cout << flush;
 }
