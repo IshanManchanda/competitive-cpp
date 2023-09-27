@@ -105,36 +105,44 @@ int main() {
     TESTCASES {
         ll n;
         cin >> n;
-        ll a[n];
-        cinai(a, n);
-        sort(a, a + n);
-
-        ll ans = a[n - 1];
-        ll dp[n];
-        map<ll, ll> nxt;
-        RREP(i, n - 1, -1) {
-            if (nxt.find(a[i]) == nxt.end()) {
-                dp[i] = 1;
-                // set nxt of all divisors
-                for (ll j = 1; j * j <= a[i]; j++) {
-                    if (a[i] % j == 0)
-                        nxt[j] = max(nxt[j], dp[i]), nxt[a[i] / j] = max(nxt[a[i] / j], dp[i]);
-                }
-                continue;
-            }
-            dp[i] = nxt[a[i]] + 1;
-//            cout << i << " (" << a[i] << ") -> " << dp[i] << endl;
-            ans = max(ans, dp[i] * a[i]);
-            // set nxt of all divisors
-            for (ll j = 1; j * j <= a[i]; j++) {
-                if (a[i] % j == 0)
-                    nxt[j] = max(nxt[j], dp[i]), nxt[a[i] / j] = max(nxt[a[i] / j], dp[i]);
-            }
+        string s1, s2;
+        cin >> s1 >> s2;
+        int x[n];
+        REP(i, 0, n) {
+            x[i] = (s1[i] - '0') ^ (s2[i] - '0');
         }
-//        for (auto x : dp) cout << x << " ";
-//        cout << endl;
-//        cout << nxt << endl;
-        cout << ans << endl;
+        ll a = 0, b = 0, c = 0, d = 0, e = 0;
+        ll i = 0;
+        while (i < n && x[i] == 0) i++, a++;
+        while (i < n && x[i] != 0) i++, b++;
+        while (i < n && x[i] == 0) i++, c++;
+        while (i < n && x[i] != 0) i++, d++;
+        while (i < n && x[i] == 0) i++, e++;
+//        cerr << a << " " << b << " " << c << " " << d << " " << e << endl;
+        if (i != n) {
+            cout << "0\n";
+            continue;
+        }
+        if (d != 0 || e != 0) {
+            // CASE 2
+            cout << 6 << endl;
+        }
+        else if (b == 0 && c == 0) {
+            // CASE 0
+            // no diffs. Basically do nC2 possible flip and then revert it
+            cout << (n * (n + 1)) / 2 << endl;
+        }
+        else {
+            // CASE 1
+            // a 0s then b 1s then c 0s
+            // flip all bs and also some a or some c
+            // and in second, flip them back
+            // only b not allowed
+            // thus a - 1 values here and b - 1 values here
+            // OR do center only by partially
+            // min 1 and max b - 1 => b - 1 ways
+            cout << 2 * (a + c + b - 1) << endl;
+        }
     }
 
     cout << flush;
