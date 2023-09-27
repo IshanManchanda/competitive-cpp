@@ -17,7 +17,7 @@ using namespace std;
 
 #define REP(i, a, b) for (ll i = (a); i < (b); ++i)
 #define RREP(i, a, b) for (ll i = (a); i > (b); --i)
-#define cinai(a, n) REP(i, 0, n) cin >> a[i]
+#define cinai(a, n) REP(ii, 0, n) cin >> a[ii]
 #define cinani(a, n) int n; cin >> n; int a[n]; cinai(a, n)
 #define cinan(a, n) ll n; cin >> n; ll a[n]; cinai(a, n)
 
@@ -87,25 +87,56 @@ inline ll mod_inv(ll x, ll m) {
 
 int main() {
     FAST_IO
-    FILE_IN
-    FILE_OUT
+//	FILE_IN
+//	FILE_OUT
 //	cout << setprecision(11);
 
 
-    TESTCASES1 {
-        ll a, b, c;
-        cin >> a >> b >> c;
-        // need k + 1 buns, k patties and cheese
-        // buy x single and y double
-        // x + 2y >= k, x + y >= k + 1
-        // cost will be ax + by
-        // if b < a, always better to buy double and get more material
-        // if 2a < b, always better to buy singles
-        // otherwise, buy doubles and one single or buy only doubles
-        ll k = max(c / a, 2 * (c / b) - 1);
-        if (c > a) k = max(k, 2 * ((c - a) / b) + 1);
-        if (c > 2 * a) k = max(k, 2 * ((c - 2 * a) / b) + 2);
-        CASEOUT << k << "\n";
+    TESTCASES {
+        int n;
+        cin >> n;
+        // n sets each with k_i elements
+        vvi a(n);
+        set<int> in_sets[51];
+        REP(i, 0, n) {
+            int k;
+            cin >> k;
+            a[i].assign(k, 0);
+            cinai(a[i], k);
+            for (auto x : a[i]) in_sets[x].insert(i);
+        }
+//        REP(i, 0, 6) cout << i << ": " << in_sets[i] << endl;
+//        for (auto x : in_sets) {
+//            cout << x << endl;
+//        }
+        map<set<int>, int> m;
+        int elems = 0;
+        REP(i, 0, 51) {
+            if (in_sets[i].empty()) continue;
+            elems++;
+            // element in at least one set
+            // iterate over all other sets and check if any a subset of this
+            int subs = 0;
+            REP(j, 0, 51) {
+                if (j == i || in_sets[j].empty()) continue;
+                if (in_sets[i] != in_sets[j] && includes(
+                    in_sets[i].begin(), in_sets[i].end(),
+                    in_sets[j].begin(), in_sets[j].end()
+                )) {
+                    subs = 1;
+                    break;
+                }
+            }
+            if (subs) continue;
+            m[in_sets[i]]++;
+        }
+//        cout << elems << endl;
+//        for (auto x : m) cout << x.ff << ": " << x.ss << endl;
+        int ans = elems;
+        for (auto x : m) {
+            ans = min(ans, x.ss);
+        }
+        cout << elems - ans << endl;
     }
 
     cout << flush;

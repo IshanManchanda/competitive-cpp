@@ -87,25 +87,26 @@ inline ll mod_inv(ll x, ll m) {
 
 int main() {
     FAST_IO
-    FILE_IN
-    FILE_OUT
+//	FILE_IN
+//	FILE_OUT
 //	cout << setprecision(11);
 
 
-    TESTCASES1 {
-        ll a, b, c;
-        cin >> a >> b >> c;
-        // need k + 1 buns, k patties and cheese
-        // buy x single and y double
-        // x + 2y >= k, x + y >= k + 1
-        // cost will be ax + by
-        // if b < a, always better to buy double and get more material
-        // if 2a < b, always better to buy singles
-        // otherwise, buy doubles and one single or buy only doubles
-        ll k = max(c / a, 2 * (c / b) - 1);
-        if (c > a) k = max(k, 2 * ((c - a) / b) + 1);
-        if (c > 2 * a) k = max(k, 2 * ((c - 2 * a) / b) + 2);
-        CASEOUT << k << "\n";
+//    TESTCASES {
+//    }
+    ll mod = 998244353;
+    ll n, d;
+    cin >> n >> d;
+    // n levels, currently we are at the first node at depth l
+    REP(l, 0, n) {
+        // go up x levels and down d - x
+        // can't go above the tree, can't go below the tree
+        // gives us a min and max on x
+        // is this n x d computation?
+        // maybe precalc some constant value as the sum over x and d - x
+        // possibly for each x we get the value and then take prefix sum
+        // and multiply by a constant factor for which level we are on
+        // or maybe the inner loop can just be analytically found
     }
 
     cout << flush;

@@ -93,19 +93,10 @@ int main() {
 
 
     TESTCASES1 {
-        ll a, b, c;
-        cin >> a >> b >> c;
-        // need k + 1 buns, k patties and cheese
-        // buy x single and y double
-        // x + 2y >= k, x + y >= k + 1
-        // cost will be ax + by
-        // if b < a, always better to buy double and get more material
-        // if 2a < b, always better to buy singles
-        // otherwise, buy doubles and one single or buy only doubles
-        ll k = max(c / a, 2 * (c / b) - 1);
-        if (c > a) k = max(k, 2 * ((c - a) / b) + 1);
-        if (c > 2 * a) k = max(k, 2 * ((c - 2 * a) / b) + 2);
-        CASEOUT << k << "\n";
+        ll r, c, a, b;
+        cin >> r >> c >> a >> b;
+        if (r > c) CASEOUT << "YES\n";
+        else CASEOUT << "NO\n";
     }
 
     cout << flush;

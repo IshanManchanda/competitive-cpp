@@ -17,7 +17,7 @@ using namespace std;
 
 #define REP(i, a, b) for (ll i = (a); i < (b); ++i)
 #define RREP(i, a, b) for (ll i = (a); i > (b); --i)
-#define cinai(a, n) REP(i, 0, n) cin >> a[i]
+#define cinai(a, n) REP(ii, 0, n) cin >> a[ii]
 #define cinani(a, n) int n; cin >> n; int a[n]; cinai(a, n)
 #define cinan(a, n) ll n; cin >> n; ll a[n]; cinai(a, n)
 
@@ -84,28 +84,51 @@ inline ll mod_inv(ll x, ll m) {
     return bin_exp_mod(x, m - 2, m);
 }
 
+long long numberOfDivisors(long long num) {
+    long long total = 1;
+    for (int i = 2; (long long)i * i <= num; i++) {
+        if (num % i == 0) {
+            int e = 0;
+            do {
+                e++;
+                num /= i;
+            } while (num % i == 0);
+            total *= e + 1;
+        }
+    }
+    if (num > 1) {
+        total *= 2;
+    }
+    return total;
+}
+
 
 int main() {
     FAST_IO
-    FILE_IN
-    FILE_OUT
+//	FILE_IN
+//	FILE_OUT
 //	cout << setprecision(11);
 
+    TESTCASES {
+        ll n, q, n0;
+        cin >> n >> q;
+        n0 = n;
 
-    TESTCASES1 {
-        ll a, b, c;
-        cin >> a >> b >> c;
-        // need k + 1 buns, k patties and cheese
-        // buy x single and y double
-        // x + 2y >= k, x + y >= k + 1
-        // cost will be ax + by
-        // if b < a, always better to buy double and get more material
-        // if 2a < b, always better to buy singles
-        // otherwise, buy doubles and one single or buy only doubles
-        ll k = max(c / a, 2 * (c / b) - 1);
-        if (c > a) k = max(k, 2 * ((c - a) / b) + 1);
-        if (c > 2 * a) k = max(k, 2 * ((c - 2 * a) / b) + 2);
-        CASEOUT << k << "\n";
+        REP(_, 0, q) {
+            ll k, x;
+            cin >> k;
+            if (k == 2) {
+                n = n0;
+                continue;
+            }
+            cin >> x;
+            n *= x;
+            ll d = numberOfDivisors(n);
+//            cout << n << " " << d << " --> ";
+            if (n % d == 0) cout << "YES\n";
+            else cout << "NO\n";
+        }
+        cout << "\n";
     }
 
     cout << flush;

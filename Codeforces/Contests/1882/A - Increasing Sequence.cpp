@@ -87,25 +87,23 @@ inline ll mod_inv(ll x, ll m) {
 
 int main() {
     FAST_IO
-    FILE_IN
-    FILE_OUT
+//	FILE_IN
+//	FILE_OUT
 //	cout << setprecision(11);
 
 
-    TESTCASES1 {
-        ll a, b, c;
-        cin >> a >> b >> c;
-        // need k + 1 buns, k patties and cheese
-        // buy x single and y double
-        // x + 2y >= k, x + y >= k + 1
-        // cost will be ax + by
-        // if b < a, always better to buy double and get more material
-        // if 2a < b, always better to buy singles
-        // otherwise, buy doubles and one single or buy only doubles
-        ll k = max(c / a, 2 * (c / b) - 1);
-        if (c > a) k = max(k, 2 * ((c - a) / b) + 1);
-        if (c > 2 * a) k = max(k, 2 * ((c - 2 * a) / b) + 2);
-        CASEOUT << k << "\n";
+    TESTCASES {
+        int n;
+        cin >> n;
+        int a[n];
+        cinai(a, n);
+        int b = 0;
+        REP(i, 0, n) {
+            b++;
+            if (a[i] == b) b++;
+        }
+        cout << b << endl;
+
     }
 
     cout << flush;

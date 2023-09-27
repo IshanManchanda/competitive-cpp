@@ -17,7 +17,7 @@ using namespace std;
 
 #define REP(i, a, b) for (ll i = (a); i < (b); ++i)
 #define RREP(i, a, b) for (ll i = (a); i > (b); --i)
-#define cinai(a, n) REP(i, 0, n) cin >> a[i]
+#define cinai(a, n) REP(ii, 0, n) cin >> a[ii]
 #define cinani(a, n) int n; cin >> n; int a[n]; cinai(a, n)
 #define cinan(a, n) ll n; cin >> n; ll a[n]; cinai(a, n)
 
@@ -87,25 +87,28 @@ inline ll mod_inv(ll x, ll m) {
 
 int main() {
     FAST_IO
-    FILE_IN
-    FILE_OUT
+//	FILE_IN
+//	FILE_OUT
 //	cout << setprecision(11);
 
 
-    TESTCASES1 {
-        ll a, b, c;
-        cin >> a >> b >> c;
-        // need k + 1 buns, k patties and cheese
-        // buy x single and y double
-        // x + 2y >= k, x + y >= k + 1
-        // cost will be ax + by
-        // if b < a, always better to buy double and get more material
-        // if 2a < b, always better to buy singles
-        // otherwise, buy doubles and one single or buy only doubles
-        ll k = max(c / a, 2 * (c / b) - 1);
-        if (c > a) k = max(k, 2 * ((c - a) / b) + 1);
-        if (c > 2 * a) k = max(k, 2 * ((c - 2 * a) / b) + 2);
-        CASEOUT << k << "\n";
+    TESTCASES {
+        int n;
+        cin >> n;
+        ll a[n];
+        cinai(a, n);
+        if (n == 1) {
+            cout << max(a[0], 0ll) << endl;
+            continue;
+        }
+        ll ans = 0;
+        ans += a[0];
+        if (a[1] > 0) ans += a[1];
+        ans = max(ans, 0ll);
+        REP(i, 2, n) {
+            if (a[i] > 0) ans += a[i];
+        }
+        cout << ans << endl;
     }
 
     cout << flush;
