@@ -52,33 +52,59 @@ typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
 int main() {
-	FAST_IO
+    FAST_IO
 //	FILE_IN
 //	FILE_OUT
 
 //	TESTCASES {
-	int x, n;
-	cin >> x >> n;
-	int a[n];
-	cinai(a, n);
+    int n, q;
+    cin >> n >> q;
+    int val[n], idx[n];
+    REP(i, 0, n) {
+        cin >> val[i];
+        val[i]--;
+        idx[val[i]] = i;
+    }
 
-	set<int> sp = {0, x};
-	multiset<int, greater<>> sg = {x};
+    int ans = 1;
+    REP(i, 1, n) {
+        if (idx[i - 1] > idx[i]) ans++;
+    }
 
-	REP(i, 0, n) {
-		auto lb = sp.lower_bound(a[i]);
-        auto ub = sp.upper_bound(a[i]);
-		lb--;
+    // initial ans computed, now we need to perform swaps
+    while (q--) {
+        int a, b;
+        cin >> a >> b;
+        a--, b--;
+        // need to swap numbers at positions a and b
 
-		sg.erase(sg.find(*ub - *lb));
-		sg.insert(*ub - a[i]);
-		sg.insert(a[i] - *lb);
+//        for (auto x : val) cout << x << " ";
+//        cout << endl;
+//        for (auto x : idx) cout << x << " ";
+//        cout << endl;
 
-		sp.insert(a[i]);
-		cout << *sg.begin() << "\n";
-	}
+        // before swap,
+        // subtract impact of original positions
+        if (val[a] < n - 1) ans -= idx[val[a]] > idx[val[a] + 1];
+        if (val[a] > 0) ans -= idx[val[a]] < idx[val[a] - 1];
+        // && conditions to prevent double counting
+        if (val[b] < n - 1 && val[b] + 1 != val[a]) ans -= idx[val[b]] > idx[val[b] + 1];
+        if (val[b] > 0 && val[b] - 1 != val[a]) ans -= idx[val[b]] < idx[val[b] - 1];
+
+        // after swap,
+        swap(idx[val[a]], idx[val[b]]);
+        swap(val[a], val[b]);
+
+        // add impact of new positions
+        if (val[a] < n - 1) ans += idx[val[a]] > idx[val[a] + 1];
+        if (val[a] > 0) ans += idx[val[a]] < idx[val[a] - 1];
+        if (val[b] < n - 1 && val[b] + 1 != val[a]) ans += idx[val[b]] > idx[val[b] + 1];
+        if (val[b] > 0 && val[b] - 1 != val[a]) ans += idx[val[b]] < idx[val[b] - 1];
+
+        cout << ans << endl;
+    }
 
 //	}
 
-	cout << flush;
+    cout << flush;
 }

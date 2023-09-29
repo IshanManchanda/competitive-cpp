@@ -63,6 +63,10 @@ int main() {
 	cinai(a, n);
 	sort(a, a + n);
 
+    // idea is inductive: If we can make RS using first i - 1 values
+    // and a[i] is equal to RS + 1, we can add a[i] to each subset
+    // and make until RS + RS + 1 = RS + a[i]
+    // if a[i] > RS + 1, we can never make RS + 1 so exit
 	ll rs = 0;
 	REP(i, 0, n) {
 		if (rs + 1 < a[i]) break;

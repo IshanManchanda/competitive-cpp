@@ -85,6 +85,17 @@ int main() {
 	if (!done[0]) ans++;
 	cout << ans;
 
+    // Better alt:
+    // For element i from the start, keep moving j backwards
+    // (and incrementing ans)
+    // until we find 2 that fit. In this case inc i and ans, dec j
+//    for (int i = 0, j = n-1; i <= j; ++i, --j)
+//    {
+//        if (i == j) { ans++; continue; }
+//        while (i < j && a[i] + a[j] > x) --j, ++ans;
+//        ans++;
+//    }
+
 //	}
 
 	cout << flush;

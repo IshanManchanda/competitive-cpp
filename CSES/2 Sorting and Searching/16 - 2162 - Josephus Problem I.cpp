@@ -52,33 +52,28 @@ typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
 int main() {
-	FAST_IO
+    FAST_IO
 //	FILE_IN
 //	FILE_OUT
 
 //	TESTCASES {
-	int x, n;
-	cin >> x >> n;
-	int a[n];
-	cinai(a, n);
-
-	set<int> sp = {0, x};
-	multiset<int, greater<>> sg = {x};
-
-	REP(i, 0, n) {
-		auto lb = sp.lower_bound(a[i]);
-        auto ub = sp.upper_bound(a[i]);
-		lb--;
-
-		sg.erase(sg.find(*ub - *lb));
-		sg.insert(*ub - a[i]);
-		sg.insert(a[i] - *lb);
-
-		sp.insert(a[i]);
-		cout << *sg.begin() << "\n";
-	}
+    int n;
+    cin >> n;
+    vector<bool> r(n, false);
+    bool k = false;
+    int kd = 0, i = 0;
+    for (; kd < n; i++) {
+        if (r[i % n]) continue;
+        // find non dead person
+        if (k) {
+            r[i % n] = true;
+            kd++;
+            cout << (i % n) + 1 << " ";
+        }
+        k = !k;
+    }
 
 //	}
 
-	cout << flush;
+    cout << flush;
 }

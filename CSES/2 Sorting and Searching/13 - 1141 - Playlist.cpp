@@ -63,6 +63,7 @@ int main() {
 	cinai(a, n);
 
 	ll l = 0, ans = 0;
+    // Setting size is crucial to avoid TLE
 	unordered_set<int> s(1LL << 17);
 	REP(i, 0, n) {
 		if (s.count(a[i])) {

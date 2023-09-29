@@ -1,7 +1,7 @@
 #pragma GCC optimize("O3,unroll-loops")
 //#pragma GCC optimize("O2,unroll-loops")
 //#pragma GCC target("avx,avx2,fma,tune=native")
-#pragma GCC target("avx,avx2,fma")
+//#pragma GCC target("avx,avx2,fma")
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -34,10 +34,10 @@ using namespace std;
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
 #define NEWL "\n";
 
-//#include <ext/pb_ds/assoc_container.hpp>
-//using namespace __gnu_pbds;
-//typedef tree<int, null_type, less<int>, rb_tree_tag,
-//	tree_order_statistics_node_update> indexed_set;
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less<>, rb_tree_tag,
+    tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
 typedef long long ll;
@@ -52,33 +52,25 @@ typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
 int main() {
-	FAST_IO
+    FAST_IO
 //	FILE_IN
 //	FILE_OUT
 
 //	TESTCASES {
-	int x, n;
-	cin >> x >> n;
-	int a[n];
-	cinai(a, n);
-
-	set<int> sp = {0, x};
-	multiset<int, greater<>> sg = {x};
-
-	REP(i, 0, n) {
-		auto lb = sp.lower_bound(a[i]);
-        auto ub = sp.upper_bound(a[i]);
-		lb--;
-
-		sg.erase(sg.find(*ub - *lb));
-		sg.insert(*ub - a[i]);
-		sg.insert(a[i] - *lb);
-
-		sp.insert(a[i]);
-		cout << *sg.begin() << "\n";
-	}
+    int n, k;
+    cin >> n >> k;
+    indexed_set s;
+    REP(i, 0, n) s.insert(i + 1);
+    int p = 0;
+    while (!s.empty()) {
+        // find_by_order(k) and order_of_key()
+        p = (p + k) % s.size();
+        auto e = s.find_by_order(p);
+        cout << *e << " ";
+        s.erase(e);
+    }
 
 //	}
 
-	cout << flush;
+    cout << flush;
 }

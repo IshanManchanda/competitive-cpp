@@ -52,23 +52,23 @@ typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
 int main() {
-	FAST_IO
+    FAST_IO
 //	FILE_IN
 //	FILE_OUT
 
 //	TESTCASES {
-	int n;
-	cin >> n;
-	int a[n];
-	cinai(a, n);
-	sort(a, a + n);
+    int n;
+    cin >> n;
+    int a[n];
+    cinai(a, n);
+    sort(a, a + n);
 
-	ll ans = 0, pick = (a[n / 2] + a[(n + 1) / 2]) / 2;
-	REP(i, 0, n)
-		ans += abs(a[i] - pick);
-	cout << ans;
+    ll ans = 0, pick = (a[n / 2] + a[(n - 1) / 2]) / 2;
+    REP(i, 0, n)
+        ans += abs(a[i] - pick);
+    cout << ans;
 
 //	}
 
-	cout << flush;
+    cout << flush;
 }
