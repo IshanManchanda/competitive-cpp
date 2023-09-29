@@ -62,8 +62,10 @@ int main() {
 	cinai(a, n);
 	ll ans = s = accumulate(a, a+n, 0LL);
 	// Hypothesis: Sorting improves speed by increasing chances of early break
+    // in tests this makes exactly no difference
 //	sort(a, a + n, greater<>());
 
+    // n is only up to 20, we try all possibilities (~1e6)
 	for (ll b = 0; b < (1LL << n); b++) {
 		ll s1 = 0;
 		REP(i, 0, n) {

@@ -59,6 +59,9 @@ int main() {
 		ll x, y;
 		cin >> x >> y;
 
+        // max(x, y) determines the spiral arm,
+        // parity of the max val determines CW or CCW arm
+        // and whether x is the max or y determines horiz or vert part of arm
 		if (x >= y) {
 			if (x & 1) cout << (x - 1) * (x - 1) + y << "\n";
 			else cout << x * x - y + 1 << "\n";

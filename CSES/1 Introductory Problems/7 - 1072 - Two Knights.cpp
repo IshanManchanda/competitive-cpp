@@ -65,6 +65,13 @@ int main() {
 		ans *= i - 1;
 		cout << ans << "\n";
 	}
+    // other approach: place 2 knights: k^2(k^2 - 1)/2
+    // now subtract the number of attacking pairs
+    // by looking at all possible placements of a 2x3 rectangle on the board
+    // and multiplying that by 2 because it has 2 attacking diagonals
+    // this is equal to (k - 1)(k - 2) * 2 * 2
+    // the first 2 is for horizontal and vertical positions
+    // thus ans = k^2(k^2 - 1)/2 - 4(k-1)(k-2)
 //	}
 
 	cout << flush;

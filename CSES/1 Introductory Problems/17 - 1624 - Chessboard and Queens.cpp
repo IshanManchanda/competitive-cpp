@@ -51,6 +51,9 @@ typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
 char b[8][8];
+// we solve column-wise. ctr holds ans
+// ld and rd are the diagonal masks and r is the row mask
+// also, these in global segment so initialized to 0
 int ctr = 0, ld[15], rd[15], r[7];
 
 void solve(int c) {
@@ -59,9 +62,12 @@ void solve(int c) {
 		return;
 	}
 	REP(i, 0, 8) {
+        // if not blocked and row free and both diags free
 		if (b[i][c] == '.' && !r[i] && !ld[i + c] && !rd[i + 7 - c]) {
+            // mark row and diags as taken
 			r[i] = ld[i + c] = rd[i + 7 - c] = 1;
-			solve(c + 1);
+			solve(c + 1);  // recurse
+            // unmark them as taken
 			r[i] = ld[i + c] = rd[i + 7 - c] = 0;
 		}
 	}

@@ -64,6 +64,8 @@ int main() {
 	cout << "YES\n";
 	sum /= 2;
 	ll ns1 = 0, ls1 = -1;
+    // keep picking the largest available value that is <= the current req
+    // this set will be always be a suffix + one number from the middle
 	while (sum > 0) {
 		if (sum >= n - ns1) {
 			sum -= n - ns1;

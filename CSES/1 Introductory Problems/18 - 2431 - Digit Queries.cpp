@@ -65,8 +65,13 @@ int main() {
 	TESTCASES {
 		ll n, c = 1;
 		cin >> n;
+        // c -> number of digits in ans
+        // single digit nums are 9, double are 90, triple 900, etc.
+        // subtract these and keep going until we exceed
 		for (ll p = 9; n - p > 0; n -= p, c++, p = 9 * bin_exp(10, c - 1) * c) ;
 		n--;
+        // now among all c digit numbers, get the (n / c)th
+        // and return the (n % c)th digit
 		ll x = n / c, y = n % c;
 		cout << to_string(bin_exp(10, c - 1) + x)[y] << "\n";
 	}

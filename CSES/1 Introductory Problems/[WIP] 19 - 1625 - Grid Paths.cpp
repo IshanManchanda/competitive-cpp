@@ -20,7 +20,7 @@ using namespace std;
 
 #define cinai(a, n) REP(ii, 0, (n)) cin >> (a)[ii];
 
-#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr);
+#define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 #define FILE_IN freopen("input.txt", "r", stdin);
 #define FILE_OUT freopen("output.txt", "w", stdout);
 
@@ -52,56 +52,68 @@ typedef vector<ll> vl;
 typedef vector<vi> vvl;
 
 string m;
-bool vis[7][7];
-const int r[] = {0, 1, 0, -1}, c[] = {-1, 0, 1, 0};
+int vis[7][7];
 
 int solve(int s, int x, int y) {
-	if (x == 0 && y == 6) {
-		if (s == 48) return 1;
-		return 0;
-	}
-	if (s == 48) return 0;
+    if (x == 0 && y == 6) return s == 48;
+    if (s == 48) return 0;
 
-	if ((x == 6 || x == 0 || (vis[x - 1][y] && vis[x + 1][y])))
-		if (y > 1 && y < 6 && !vis[x][y - 1] && !vis[x][y + 1])
-			return 0;
-	if ((y == 6 || y == 0 || (vis[x][y - 1] && vis[x][y + 1])))
-		if (x > 1 && x < 6 && !vis[x - 1][y] && !vis[x + 1][y])
-			return 0;
+    if ((x == 6 || x == 0 || (vis[x - 1][y] && vis[x + 1][y])))
+        if (y > 1 && y < 6 && !vis[x][y - 1] && !vis[x][y + 1])
+            return 0;
+    if ((y == 6 || y == 0 || (vis[x][y - 1] && vis[x][y + 1])))
+        if (x > 1 && x < 6 && !vis[x - 1][y] && !vis[x + 1][y])
+            return 0;
 
-	if (m[s] == '?') {
-		int a = 0;
-		REP(i, 0, 4) {
-			int x1 = x + r[i], y1 = y + c[i];
-			if (x1 < 0 || x1 > 6 || y1 < 0 || y1 > 6 || vis[x1][y1]) continue;
-			vis[x1][y1] = true;
-			a += solve(s + 1, x1, y1);
-			vis[x1][y1] = false;
-		}
-		return a;
-	}
+    if (m[s] == '?') {
+        const int r[] = {0, 1, 0, -1}, c[] = {-1, 0, 1, 0};
+        int a = 0;
+        REP(i, 0, 4) {
+            int x1 = x + r[i], y1 = y + c[i];
+            if (x1 < 0 || x1 > 6 || y1 < 0 || y1 > 6 || vis[x1][y1]) continue;
+            vis[x1][y1] = 1;
+            a += solve(s + 1, x1, y1);
+            vis[x1][y1] = 0;
+        }
+        return a;
+    }
 
-	else if (m[s] == 'D') y++;
-	else if (m[s] == 'U') y--;
-	else if (m[s] == 'R') x++;
-	else x--;
-	if (x < 0 || x > 6 || y < 0 || y > 6 || vis[x][y]) return 0;
-	vis[x][y] = true;
-	int a = solve(s + 1, x, y);
-	vis[x][y] = false;
-	return a;
+    else if (m[s] == 'D') y++;
+    else if (m[s] == 'U') y--;
+    else if (m[s] == 'R') x++;
+    else x--;
+    if (x < 0 || x > 6 || y < 0 || y > 6 || vis[x][y]) return 0;
+    vis[x][y] = 1;
+    int a = solve(s + 1, x, y);
+    vis[x][y] = 0;
+    return a;
 }
 
 int main() {
-	FAST_IO
+    FAST_IO
 //	FILE_IN
 //	FILE_OUT
 
 //	TESTCASES {
-	cin >> m;
-	vis[0][0] = 1;
-	cout << solve(0, 0, 0) << flush;
+    cin >> m;
+    int flag = -1;
+    for (int i = 0; i < 48; i++) {
+        if (m[i] != '?') {
+            flag = i;
+            break;
+        }
+    }
+    vis[0][0] = 1;
+    if (flag > 24) {
+        // first move occurs in second half, better to reverse
+        reverse(all(m));
+        for (int i = 0; i < 48; i++) {
+            if (m[i] == 'L') m[i] = 'R';
+            else if (m[i] == 'R') m[i] = 'L';
+        }
+    }
+    cout << solve(0, 0, 0);
 //	}
 
-//	cout << flush;
+    cout << flush;
 }

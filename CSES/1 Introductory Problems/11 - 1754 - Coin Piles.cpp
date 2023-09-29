@@ -57,6 +57,9 @@ int main() {
 		ll a, b;
 		cin >> a >> b;
 		if (a < b) swap(a, b);
+        // solve equation for x first operations and y second
+        // the modulo constraint is for non-fractional y and
+        // ge 0 for y ge 0
 		cout << (((2 * b - a >= 0) && !((2 * b - a) % 3)) ? "YES\n" : "NO\n");
 	}
 

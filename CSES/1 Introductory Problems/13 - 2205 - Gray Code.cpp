@@ -56,6 +56,25 @@ int main() {
 //	FILE_OUT
 
 //	TESTCASES {
+    /*
+    00 : 00
+    01 : 01
+    11 : 10
+    10 : 11
+
+    000: 000
+    001: 001
+    011: 010
+    010: 011
+    110: 100
+    111: 101
+    101: 110
+    100: 111
+
+    when in top half, 2SB matches and when in bottom half, 2SB is inverted
+    simply thus, XOR between MSB and 2SB gives us new 2SB
+    recursively extending the argument, we have x ^ (x >> 1)
+    */
 	int n;
 	cin >> n;
 	REP(i, 0, (1LL << n)) {
