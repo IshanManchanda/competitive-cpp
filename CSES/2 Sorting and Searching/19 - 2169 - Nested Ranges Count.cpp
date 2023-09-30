@@ -1,4 +1,4 @@
-//#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC optimize("O3,unroll-loops")
 //#pragma GCC target("avx,avx2,fma,tune=native")
 //#pragma GCC target("avx,avx2,fma")
 //#pragma GCC target("tune=native")
@@ -33,7 +33,7 @@ using namespace std;
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
 #define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
-#define endl "\n";
+//#define endl "\n";
 
 #define debarr(a,n) cout<<#a<<" : ";for(int i=0;i<n;i++) cerr<<a[i]<<" "; cerr<<endl;
 #define debmat(mat,row,col) cout<<#mat<<" :\n";for(int i=0;i<row;i++) {for(int j=0;j<col;j++) cerr<<mat[i][j]<<" ";cerr<<endl;}
@@ -49,11 +49,10 @@ template <class T> void dbs(string str, T t) {cerr << str << " : " << t << "\n";
 template <class T, class... S> void dbs(string str, T t, S... s) {int idx = str.find(','); cerr << str.substr(0, idx) << " : " << t << ","; dbs(str.substr(idx + 1), s...);}
 template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {if (i != a) cerr << ", "; cerr << *i;} cerr << "]\n";}
 
-//#include <ext/pb_ds/assoc_container.hpp>
-//#include <ext/pb_ds/tree_policy.hpp>
-//using namespace __gnu_pbds;
-//typedef tree<int, null_type, less<int>, rb_tree_tag,
-//	tree_order_statistics_node_update> indexed_set;
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+typedef tree<pair<int, int>, null_type, less<>, rb_tree_tag,
+    tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
 typedef long long ll;
@@ -93,5 +92,58 @@ int main() {
 //	cout << setprecision(11);
 
 //    TESTCASES {}
+    int n;
+    cin >> n;
+    // need idx before sorting
+    vvi ranges(n);
+    indexed_set closing, closing2;
+    REP(i, 0, n) {
+        int x, y;
+        cin >> x >> y;
+        ranges[i] = {x, y, (int) i};
+        closing.insert({y, (int) i});
+        closing2.insert({y, (int) i});
+    }
+    sort(all(ranges));
+    int ans1[n], ans2[n];
+    memset(ans1, 0, sizeof ans1);
+    memset(ans2, 0, sizeof ans2);
+
+    int i = 0;
+    while (i < n) {
+        // can't remove if equal starting elements still there
+        // solve for all j with equal starting as i
+        int j = i;
+        while (j < n && ranges[j][0] == ranges[i][0]) {
+            // need to check if any less or equal
+            int order = closing.order_of_key({ranges[j][1] + 1, -1});
+            ans1[ranges[j][2]] = order - 1;
+            j++;
+        }
+
+        // remove all till j
+        while (i != j) closing.erase({ranges[i][1], ranges[i][2]}), i++;
+    }
+    // now need to solve for ans2
+    // iterate in reverse order of starting and do similar?
+    // all currently in set will start before, check if any ends after
+    i = n - 1;
+    while (i > -1) {
+        int j = i;
+        while (j > -1 && ranges[j][0] == ranges[i][0]) {
+            // need to check if any greater or equal
+            int order = closing2.order_of_key({ranges[j][1] - 1, INT_MAX});
+            ans2[ranges[j][2]] = closing2.size() - order - 1;
+            j--;
+        }
+
+        while (i != j) closing2.erase({ranges[i][1], ranges[i][2]}), i--;
+    }
+
+    for (auto x : ans1) cout << x << " ";
+    cout << endl;
+    for (auto x : ans2) cout << x << " ";
+    cout << endl;
+
     cout << flush;
 }

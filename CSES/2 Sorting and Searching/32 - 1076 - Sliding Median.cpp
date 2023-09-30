@@ -33,7 +33,7 @@ using namespace std;
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
 #define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
-#define endl "\n";
+//#define endl "\n";
 
 #define debarr(a,n) cout<<#a<<" : ";for(int i=0;i<n;i++) cerr<<a[i]<<" "; cerr<<endl;
 #define debmat(mat,row,col) cout<<#mat<<" :\n";for(int i=0;i<row;i++) {for(int j=0;j<col;j++) cerr<<mat[i][j]<<" ";cerr<<endl;}
@@ -49,12 +49,11 @@ template <class T> void dbs(string str, T t) {cerr << str << " : " << t << "\n";
 template <class T, class... S> void dbs(string str, T t, S... s) {int idx = str.find(','); cerr << str.substr(0, idx) << " : " << t << ","; dbs(str.substr(idx + 1), s...);}
 template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {if (i != a) cerr << ", "; cerr << *i;} cerr << "]\n";}
 
-//#include <ext/pb_ds/assoc_container.hpp>
-//#include <ext/pb_ds/tree_policy.hpp>
-//using namespace __gnu_pbds;
-//typedef tree<int, null_type, less<int>, rb_tree_tag,
-//	tree_order_statistics_node_update> indexed_set;
-/* find_by_order(k) and order_of_key(x) */
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+typedef tree<pair<int, int>, null_type, less<>, rb_tree_tag,
+    tree_order_statistics_node_update> indexed_set;
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -93,5 +92,20 @@ int main() {
 //	cout << setprecision(11);
 
 //    TESTCASES {}
+    int n, k;
+    cin >> n >> k;
+    int a[n];
+    cinai(a, n);
+    // can use order statistics tree here?
+    indexed_set s;
+    for (int i = 0; i < k; i++) s.insert({a[i], i});
+    for (int i = k; i < n; i++) {
+        cout << s.find_by_order((k - 1) / 2)->ff << " ";
+//        cout << a[i - k] << ", " << a[i] << endl;
+        s.erase({a[i - k], i - k});
+        s.insert({a[i], i});
+    }
+    cout << s.find_by_order((k - 1) / 2)->ff;
+
     cout << flush;
 }

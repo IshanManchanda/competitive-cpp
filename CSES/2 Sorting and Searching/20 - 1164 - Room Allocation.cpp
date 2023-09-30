@@ -33,7 +33,7 @@ using namespace std;
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
 #define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
-#define endl "\n";
+//#define endl "\n";
 
 #define debarr(a,n) cout<<#a<<" : ";for(int i=0;i<n;i++) cerr<<a[i]<<" "; cerr<<endl;
 #define debmat(mat,row,col) cout<<#mat<<" :\n";for(int i=0;i<row;i++) {for(int j=0;j<col;j++) cerr<<mat[i][j]<<" ";cerr<<endl;}
@@ -50,9 +50,8 @@ template <class T, class... S> void dbs(string str, T t, S... s) {int idx = str.
 template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {if (i != a) cerr << ", "; cerr << *i;} cerr << "]\n";}
 
 //#include <ext/pb_ds/assoc_container.hpp>
-//#include <ext/pb_ds/tree_policy.hpp>
 //using namespace __gnu_pbds;
-//typedef tree<int, null_type, less<int>, rb_tree_tag,
+//typedef tree<int, null_type, less<>, rb_tree_tag,
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
@@ -93,5 +92,39 @@ int main() {
 //	cout << setprecision(11);
 
 //    TESTCASES {}
+    int n;
+    cin >> n;
+
+    vector<vi> events;
+    int temp1, temp2, ctr = 0, ans = 0;
+    REP(i, 0, n) {
+        cin >> temp1 >> temp2;
+        events.push_back({temp1, -1, (int) i});
+        events.push_back({temp2, 0, (int) i});
+    }
+    sort(all(events));
+    vi v(n);
+
+    // Need mechanism for freeing up a room
+    set<int> rooms;
+    for (auto e : events) {
+//        cout << e << "-> " << ctr << endl;
+        if (e[1] == 0) {
+            ctr--;
+            rooms.insert(v[e[2]]);
+        }
+        else {
+            if (rooms.empty()) v[e[2]] = ctr + 1;
+            else {
+                v[e[2]] = *rooms.begin();
+                rooms.erase(rooms.begin());
+            }
+            ++ctr;
+        }
+        ans = max(ans, ctr);
+    }
+    cout << ans << "\n";
+    for (auto x : v) cout << x << " ";
+
     cout << flush;
 }

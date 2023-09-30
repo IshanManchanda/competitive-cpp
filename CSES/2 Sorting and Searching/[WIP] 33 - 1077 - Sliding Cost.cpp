@@ -33,7 +33,7 @@ using namespace std;
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
 #define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
-#define endl "\n";
+//#define endl "\n";
 
 #define debarr(a,n) cout<<#a<<" : ";for(int i=0;i<n;i++) cerr<<a[i]<<" "; cerr<<endl;
 #define debmat(mat,row,col) cout<<#mat<<" :\n";for(int i=0;i<row;i++) {for(int j=0;j<col;j++) cerr<<mat[i][j]<<" ";cerr<<endl;}
@@ -93,5 +93,19 @@ int main() {
 //	cout << setprecision(11);
 
 //    TESTCASES {}
+    int n, k;
+    cin >> n >> k;
+    int a[n];
+    cinai(a, n);
+    // maintain max heap storing the min (k + 1)/2 elements
+    // and min heap storing the max k/2 elements
+    // if k even, both have equal elements and if odd,
+    // max heap will have one more element
+    // when get a new value, add it to the max or min heap
+    // depending on whether it is <= or > the median
+    // then, if the <= property isn't satisfied, pop the min element
+    // from the min heap and add it to the max heap
+    // also in another map store pointers to
+
     cout << flush;
 }
