@@ -33,7 +33,7 @@ using namespace std;
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
 #define MOD (1'000'000'007)
 //#define MOD_SUM(a, b) ((a) + (b) >= MOD) ? ((a) + (b) - MOD) : ((a) + (b))
-//#define endl "\n";
+#define endl "\n";
 
 #define debarr(a,n) cout<<#a<<" : ";for(int i=0;i<n;i++) cerr<<a[i]<<" "; cerr<<endl;
 #define debmat(mat,row,col) cout<<#mat<<" :\n";for(int i=0;i<row;i++) {for(int j=0;j<col;j++) cerr<<mat[i][j]<<" ";cerr<<endl;}
@@ -92,20 +92,43 @@ int main() {
 //	FILE_OUT
 //	cout << setprecision(11);
 
-//    TESTCASES {}
-    int n, k;
-    cin >> n >> k;
-    int a[n];
-    cinai(a, n);
-    // maintain max heap storing the min (k + 1)/2 elements
-    // and min heap storing the max k/2 elements
-    // if k even, both have equal elements and if odd,
-    // max heap will have one more element
-    // when get a new value, add it to the max or min heap
-    // depending on whether it is <= or > the median
-    // then, if the <= property isn't satisfied, pop the min element
-    // from the min heap and add it to the max heap
-    // also in another map store pointers to
+    TESTCASES {
+        ll a, b, c, d, m;
+        cin >> a >> b >> c >> d >> m;
+        ll x = (a << 30) + b, z = (c << 30) + d;
+        if (x == z) {
+            cout << 0 << endl;
+            continue;
+        }
+        ll mx = (1ll << 60) - (1ll << 30), my = (1ll << 30) - 1;
+        map<ll, int> dist;
+        dist[x] = 0;
+        queue<ll> q;
+        q.push(x);
+        int done = 0;
+        while (!done && !q.empty()) {
+            x = q.front();
+            q.pop();
+            // get all 4 neighbors
+            ll y[4];
+            y[0] = (mx & (x & (x << 30))) | (my & x);
+            y[1] = (mx & (x | (x << 30))) | (my & x);
+            y[2] = (mx & x) | (my & ((x >> 30) ^ x));
+            y[3] = (mx & x) | (my & (m ^ x));
+            for (auto y1 : y) {
+                if (y1 == z) {
+                    cout << dist[x] + 1 << endl;
+                    done = 1;
+                    break;
+                }
+                if (dist.find(y1) == dist.end()) {
+                    q.push(y1);
+                    dist[y1] = dist[x] + 1;
+                }
+            }
+        }
+        if (!done) cout << -1 << endl;
 
+    }
     cout << flush;
 }
