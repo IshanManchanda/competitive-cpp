@@ -56,26 +56,6 @@ template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
-//#include <ext/rope>
-//using namespace __gnu_cxx;
-//rope<int> v1;  // can use as usual STL container
-// v1.push_back(x), v1.erase(start, len)
-// v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin(), v2)
-// auto it = v.mutable_begin(); it != v.mutable_end(); it++
-// can index using [ ] to return const ref
-// modify: v.mutable_reference_at(i) = x
-
-//#include <ext/pb_ds/assoc_container.hpp>
-//using namespace __gnu_pbds;
-//gp_hash_table<int, int> table;
-// can use any other type as key if defined a hash function
-//struct chash {
-//    int operator()(pi x) const { return x.first * 31 + x.second; }
-//};
-//gp_hash_table<pi, int, chash> table;
-
-
 typedef long long ll;
 typedef unsigned long long ull;
 //typedef __int128_t lll;
@@ -89,22 +69,6 @@ typedef vector<vi> vvi;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
 
-// x^y mod m in O(log y)
-ll bin_exp_mod(ll x, ll y, ll m) {
-    x %= m;
-    ll ans = 1LL;
-    while (y) {
-        if (y & 1) ans = (ans * x) % m;
-        x = (x * x) % m;
-        y >>= 1;
-    }
-    return ans;
-}
-// Works when m is prime, use extended GCD otherwise
-inline ll mod_inv(ll x, ll m) {
-    return bin_exp_mod(x, m - 2, m);
-}
-
 
 int main() {
     FAST_IO
@@ -113,5 +77,27 @@ int main() {
 //	cout << setprecision(11);
 
 //    TESTCASES {}
+    int n;
+    cin >> n;
+    int dp[n + 1];
+    for (auto &x : dp) x = MOD;  // inf
+    dp[0] = 0;
+
+    REP(i, 1, n + 1) {
+        // which digit
+        int j = 1;
+//        cout << i << ": ";
+        while (i >= j) {
+            // first digit: % p10[1]
+            // second digit: % p10[2] - % p10[1]
+            ll d = (i % (j * 10) - i % j) / j;
+//            cout << d << ", ";
+            dp[i] = min(dp[i], 1 + dp[i - d]);
+            j *= 10;
+        }
+//        cout << endl;
+    }
+    cout << dp[n];
+
     cout << flush;
 }

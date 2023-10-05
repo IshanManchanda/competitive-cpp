@@ -56,26 +56,6 @@ template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
-//#include <ext/rope>
-//using namespace __gnu_cxx;
-//rope<int> v1;  // can use as usual STL container
-// v1.push_back(x), v1.erase(start, len)
-// v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin(), v2)
-// auto it = v.mutable_begin(); it != v.mutable_end(); it++
-// can index using [ ] to return const ref
-// modify: v.mutable_reference_at(i) = x
-
-//#include <ext/pb_ds/assoc_container.hpp>
-//using namespace __gnu_pbds;
-//gp_hash_table<int, int> table;
-// can use any other type as key if defined a hash function
-//struct chash {
-//    int operator()(pi x) const { return x.first * 31 + x.second; }
-//};
-//gp_hash_table<pi, int, chash> table;
-
-
 typedef long long ll;
 typedef unsigned long long ull;
 //typedef __int128_t lll;
@@ -89,22 +69,6 @@ typedef vector<vi> vvi;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
 
-// x^y mod m in O(log y)
-ll bin_exp_mod(ll x, ll y, ll m) {
-    x %= m;
-    ll ans = 1LL;
-    while (y) {
-        if (y & 1) ans = (ans * x) % m;
-        x = (x * x) % m;
-        y >>= 1;
-    }
-    return ans;
-}
-// Works when m is prime, use extended GCD otherwise
-inline ll mod_inv(ll x, ll m) {
-    return bin_exp_mod(x, m - 2, m);
-}
-
 
 int main() {
     FAST_IO
@@ -112,6 +76,40 @@ int main() {
 //	FILE_OUT
 //	cout << setprecision(11);
 
-//    TESTCASES {}
+    // approaches with prefix sum etc. don't work, too many cases
+    // need to think about dp[i] purely in terms of dp[i - 1].
+    // To do this, we need to consider the top row only.
+    // This has 2 cases:
+    // Let Type 1 tower have individual blocks in the topmost row (a[i])
+    // and Type 2 tower have a single joint block (b[i])
+    // Now, the topmost block in either case can actually be of any length
+    // but we want this to be included simply as a function of dp[i - 1]
+    // So, every time the 1st and 2nd row blocks are 'compatible',
+    // we consider 2 cases - one in which top row has height 1
+    // and another in which the top row block is actually connected to prev
+    // thus extending any k-length block to k + 1 length
+    int mxn = 1e6 + 2;
+    ll a[mxn], b[mxn];
+    a[1] = b[1] = 1;
+    // T1 tower transition: If we have a T2 tower in the prev row,
+    // top row can only be 2 1x1 pieces
+    // but if have a T1 tower prev, then for each of the cols we can
+    // independently consider joint vs separate (2 cases * 2 cols)
+    // Thus a[i] = 4 * a[i - 1] + b[i - 1]
+    // For T2 tower: Can extend/stack on another T2 tower
+    // but can only stack 1x2 on a T1 tower
+    // Thus b[i] = 2 * b[i - 1] + a[i - 1]
+    REP(i, 2, mxn) {
+        a[i] = (4 * a[i - 1] + b[i - 1]) % MOD;
+        b[i] = (2 * b[i - 1] + a[i - 1]) % MOD;
+    }
+
+    TESTCASES {
+        int n;
+        cin >> n;
+        cout << (a[n] + b[n]) % MOD << endl;
+    }
+
+
     cout << flush;
 }
