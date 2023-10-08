@@ -56,12 +56,12 @@ template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
-//#include <ext/rope>
-//using namespace __gnu_cxx;
+#include <ext/rope>
+using namespace __gnu_cxx;
 //rope<int> v1;  // can use as usual STL container
 // v1.push_back(x), v1.erase(start, len)
 // v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin() + idx, v2)
+// v.insert(v.mutable_begin(), v2)
 // auto it = v.mutable_begin(); it != v.mutable_end(); it++
 // can index using [ ] to return const ref
 // modify: v.mutable_reference_at(i) = x
@@ -113,5 +113,45 @@ int main() {
 //	cout << setprecision(11);
 
 //    TESTCASES {}
+    ll xa, ya, xb, yb, xc, yc;
+    cin >> xa >> ya >> xb >> yb >> xc >> yc;
+
+    // move to cargo and align with direction needed
+    int h, v, h1, v1;
+    // horizontal and vertical directions to move box to goal
+    if (yb == yc) h = 0;
+    else if (yb > yc) h = -1;
+    else h = 1;
+    if (xb == xc) v = 0;
+    else if (xb > xc) v = -1;
+    else v = 1;
+
+    // horizontal and vertical directions of person and box
+    // this is position of person relative to box
+    if (yb == ya) h1 = 0;
+    else if (yb < ya) h1 = -1;
+    else h1 = 1;
+    if (xb == xa) v1 = 0;
+    else if (xb < xa) v1 = -1;
+    else v1 = 1;
+
+    // if same direction, we can save one step
+    // if opp direction, might need up to 2 extra steps
+    ll ans = abs(xa - xb) + abs(xb - xc) + abs(ya - yb) + abs(yb - yc) - 1;
+
+    // if both non-zero, at least 2 moves needed to switch push side
+    if (h != 0 && v != 0) ans += 2;
+    // if wrong side, add 3 moves
+    if (h1 != h) ans += 4;
+    if (v1 != v) ans += 4;
+    if (h1 != h && v1 != v) ans -= 6;
+    // but if both, i can do one while the other. i save the 4
+    // and also 1 move plus the 2 will overlap. -6?
+
+
+    cout << ans;
+
+
+
     cout << flush;
 }

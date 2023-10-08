@@ -56,12 +56,12 @@ template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
-//#include <ext/rope>
-//using namespace __gnu_cxx;
+#include <ext/rope>
+using namespace __gnu_cxx;
 //rope<int> v1;  // can use as usual STL container
 // v1.push_back(x), v1.erase(start, len)
 // v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin() + idx, v2)
+// v.insert(v.mutable_begin(), v2)
 // auto it = v.mutable_begin(); it != v.mutable_end(); it++
 // can index using [ ] to return const ref
 // modify: v.mutable_reference_at(i) = x
@@ -108,10 +108,46 @@ inline ll mod_inv(ll x, ll m) {
 
 int main() {
     FAST_IO
-//	FILE_IN
-//	FILE_OUT
-//	cout << setprecision(11);
+    FILE_IN
+    FILE_OUT
+//    cout << setprecision(11);
 
-//    TESTCASES {}
+    TESTCASES1 {
+        int n, q;
+        string s;
+        cin >> n >> s >> q;
+        s = '0' + s;
+        bool a[n + 3];
+        memset(a, 0, sizeof a);
+//        for (auto x : a) cout << x << " "; cout << endl;
+        // a is the flips we have performed, string s is original
+        // populate a using s initially
+        ll ans = 0;
+        set<int> flipped;
+        // i is 1 to n!!, 1-based indexing
+        for (int i = 1; i <= n; i++) {
+            if ((s[i] - '0') ^ a[i]) {
+//                cout << i << ": " << a[i] << " " << (s[i] - '0') << endl;
+                // need to flip this and all multiples
+                for (int j = i; j <= n; j += i) a[j] = 1 - a[j];
+//                for (auto x : a) cout << x << " "; cout << endl;
+                ans++;
+                flipped.insert(i);
+            }
+        }
+//        cout << flipped << endl;
+        ll sum1 = 0;
+        while (q--) {
+            int x;
+            cin >> x;
+            if (flipped.find(x) != flipped.end()) flipped.erase(x), ans--;
+            else ans++, flipped.insert(x);
+            sum1 += ans;
+//            cout << ans << " ";
+        }
+        CASEOUT << sum1 << endl;
+//        CASEOUT << ans << endl;
+    }
+
     cout << flush;
 }

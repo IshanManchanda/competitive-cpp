@@ -17,7 +17,7 @@ using namespace std;
 
 #define REP(i, a, b) for (ll i = (a); i < (b); ++i)
 #define RREP(i, a, b) for (ll i = (a); i > (b); --i)
-#define cinai(a, n) REP(i, 0, n) cin >> a[i]
+#define cinai(a, n) REP(ii, 0, n) cin >> a[ii]
 #define cinani(a, n) int n; cin >> n; int a[n]; cinai(a, n)
 #define cinan(a, n) ll n; cin >> n; ll a[n]; cinai(a, n)
 
@@ -50,31 +50,10 @@ template <class T, class... S> void dbs(string str, T t, S... s) {int idx = str.
 template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {if (i != a) cerr << ", "; cerr << *i;} cerr << "]\n";}
 
 //#include <ext/pb_ds/assoc_container.hpp>
-//#include <ext/pb_ds/tree_policy.hpp>
 //using namespace __gnu_pbds;
 //typedef tree<int, null_type, less<int>, rb_tree_tag,
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
-
-//#include <ext/rope>
-//using namespace __gnu_cxx;
-//rope<int> v1;  // can use as usual STL container
-// v1.push_back(x), v1.erase(start, len)
-// v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin() + idx, v2)
-// auto it = v.mutable_begin(); it != v.mutable_end(); it++
-// can index using [ ] to return const ref
-// modify: v.mutable_reference_at(i) = x
-
-//#include <ext/pb_ds/assoc_container.hpp>
-//using namespace __gnu_pbds;
-//gp_hash_table<int, int> table;
-// can use any other type as key if defined a hash function
-//struct chash {
-//    int operator()(pi x) const { return x.first * 31 + x.second; }
-//};
-//gp_hash_table<pi, int, chash> table;
-
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -112,6 +91,50 @@ int main() {
 //	FILE_OUT
 //	cout << setprecision(11);
 
-//    TESTCASES {}
+    TESTCASES {
+        int n, q;
+        cin >> n;
+        int a[n];
+        cinai(a, n);
+        cin >> q;
+
+        int st[(int)(log2(n) + 1)][n];
+        memset(st, 0, sizeof st);
+        REP(i, 0, n) st[0][i] = a[i];
+        REP(i, 1, log2(n) + 1) {
+            // i = 1, length 2. l = 1 << i
+            // and l - 1 elements at the end won't have an entry
+            // since here we have exact powers of 2, can use j + l/2
+            // instead of needing to do (j + l) - l/2
+            ll l = (1 << i);
+            REP(j, 0, n - l + 1) {
+                st[i][j] = st[i - 1][j] & st[i - 1][j + l / 2];
+            }
+        }
+//        REP(i, 0, n) {
+//            REP(j, 0, log2(n)) cout << st[j][i] << " ";
+//            cout << endl;
+//        }
+
+        REP(_, 0, q) {
+            int l, k;
+            cin >> l >> k;
+            if (a[l - 1] < k) {
+                cout << "-1 ";
+                continue;
+            }
+            // lo alw true, hi never
+            int lo = l, hi = n + 1;
+            while (hi > lo + 1) {
+                int mid = lo + (hi - lo) / 2;
+                int p2 = log2(mid - l + 1); // 1
+                if ((st[p2][l - 1] & st[p2][mid - (1 << p2)]) >= k) lo = mid; // 1, 3 and other should be 1, 3 only
+                else hi = mid;
+            }
+            cout << lo << " ";
+        }
+        cout << "\n";
+    }
+
     cout << flush;
 }

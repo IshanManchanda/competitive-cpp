@@ -56,12 +56,12 @@ template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
-//#include <ext/rope>
-//using namespace __gnu_cxx;
+#include <ext/rope>
+using namespace __gnu_cxx;
 //rope<int> v1;  // can use as usual STL container
 // v1.push_back(x), v1.erase(start, len)
 // v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin() + idx, v2)
+// v.insert(v.mutable_begin(), v2)
 // auto it = v.mutable_begin(); it != v.mutable_end(); it++
 // can index using [ ] to return const ref
 // modify: v.mutable_reference_at(i) = x
@@ -105,6 +105,24 @@ inline ll mod_inv(ll x, ll m) {
     return bin_exp_mod(x, m - 2, m);
 }
 
+const ll mod = 998244353;
+ll n1;
+
+ll solve(ll x, vi &t, vl &dp) {
+//    cout << x << endl;
+    if (x < 0) return 0;
+    if (dp[x] != -1) return dp[x];
+    if (x == 0) return dp[x] = n1;
+    ll ans = 0;
+    for (auto t1 : t) {
+        ans = (ans + solve(x - t1, t, dp)) % mod;
+    }
+    ans = (ans * n1) % mod;
+    if (t[0] > x) ans = (ans + n1) % mod;
+//    cout << x << " -> " << ans << endl;
+    return dp[x] = ans;
+}
+
 
 int main() {
     FAST_IO
@@ -113,5 +131,14 @@ int main() {
 //	cout << setprecision(11);
 
 //    TESTCASES {}
+    int n, x;
+    cin >> n >> x;
+    n1 = mod_inv(n, mod);
+    vi t(n);
+    vl dp(x + 1, -1);
+    cinai(t, n);
+    cout << solve(x, t, dp) << endl;
+//    for (int i = 0; i <= x; i++) cout << i << ": " << dp[i] << endl;
+
     cout << flush;
 }

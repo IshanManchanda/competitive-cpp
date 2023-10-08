@@ -56,12 +56,12 @@ template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
-//#include <ext/rope>
-//using namespace __gnu_cxx;
+#include <ext/rope>
+using namespace __gnu_cxx;
 //rope<int> v1;  // can use as usual STL container
 // v1.push_back(x), v1.erase(start, len)
 // v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin() + idx, v2)
+// v.insert(v.mutable_begin(), v2)
 // auto it = v.mutable_begin(); it != v.mutable_end(); it++
 // can index using [ ] to return const ref
 // modify: v.mutable_reference_at(i) = x
@@ -113,5 +113,13 @@ int main() {
 //	cout << setprecision(11);
 
 //    TESTCASES {}
-    cout << flush;
+    string s;
+    cin >> s;
+    for (int i = 1; i <= 15; i += 2) {
+        if (s[i] == '1') {
+            cout << "No" << flush;
+            return 0;
+        }
+    }
+    cout << "Yes" << flush;
 }

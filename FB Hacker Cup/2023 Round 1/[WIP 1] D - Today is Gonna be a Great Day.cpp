@@ -56,12 +56,12 @@ template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
-//#include <ext/rope>
-//using namespace __gnu_cxx;
+#include <ext/rope>
+using namespace __gnu_cxx;
 //rope<int> v1;  // can use as usual STL container
 // v1.push_back(x), v1.erase(start, len)
 // v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin() + idx, v2)
+// v.insert(v.mutable_begin(), v2)
 // auto it = v.mutable_begin(); it != v.mutable_end(); it++
 // can index using [ ] to return const ref
 // modify: v.mutable_reference_at(i) = x
@@ -89,29 +89,93 @@ typedef vector<vi> vvi;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
 
-// x^y mod m in O(log y)
-ll bin_exp_mod(ll x, ll y, ll m) {
-    x %= m;
-    ll ans = 1LL;
-    while (y) {
-        if (y & 1) ans = (ans * x) % m;
-        x = (x * x) % m;
-        y >>= 1;
+const int MAXN = 1000007, mod = 1000000007;
+int n;
+pair<pi, pi> t[4*MAXN];  // store min and max
+int lazy[4*MAXN];  // lazy prop
+
+void build(vi &a, int v, int tl, int tr) {
+    if (tl == tr) {
+        // min, max
+        t[v] = {{tl, tl}, {a[tl], a[tl]}};
+    } else {
+        int tm = (tl + tr) / 2;
+        build(a, v*2, tl, tm);
+        build(a, v*2+1, tm+1, tr);
+
+        int min_pos, min_val, max_pos, max_val;
+        if (t[v*2].ss.ff <= t[v*2+1].ss.ff) min_pos = t[v*2].ff.ff, min_val = t[v*2].ss.ff;
+        else min_pos = t[v*2+1].ff.ff, min_val = t[v*2+1].ss.ff;
+        if (t[v*2].ss.ss >= t[v*2+1].ss.ss) max_pos = t[v*2].ff.ss, max_val = t[v*2].ss.ff;
+        else max_pos = t[v*2+1].ff.ss, max_val = t[v*2+1].ss.ff;
+
+        t[v] = {{min_pos, max_pos}, {min_val, max_val}};
     }
-    return ans;
 }
-// Works when m is prime, use extended GCD otherwise
-inline ll mod_inv(ll x, ll m) {
-    return bin_exp_mod(x, m - 2, m);
+
+void push(int v) {
+    // Subtract from mod, swap min and max
+    if (!lazy[v]) return;
+    t[v*2] = {mod - t[v*2].ss, mod - t[v*2].ff};
+    lazy[v*2] ^= lazy[v];
+    t[v*2+1] = {mod - t[v*2+1].ss, mod - t[v*2+1].ff};
+    lazy[v*2+1] ^= lazy[v];
+    lazy[v] = 0;
+}
+
+void update(int v, int tl, int tr, int l, int r) {
+    if (l > r)
+        return;
+    if (l == tl && tr == r) {
+        t[v] = {mod - t[v].ss, mod - t[v].ff};
+        lazy[v] ^= 1;
+    } else {
+        push(v);
+        int tm = (tl + tr) / 2;
+        update(v*2, tl, tm, l, min(r, tm));
+        update(v*2+1, tm+1, tr, max(l, tm+1), r);
+        t[v] = {min(t[v*2].ff, t[v*2+1].ff), max(t[v*2].ss, t[v*2+1].ss)};
+    }
+}
+
+int query(int v, int tl, int tr, int l, int r) {
+    // TODO: figure this out
+    if (l > r)
+        return INT_MIN;
+
+    if (l == tl && tr == r)
+        return max(t[v].ff, t[v].ss);
+    push(v);
+    int tm = (tl + tr) / 2;
+    // mod -
+    auto q1 = query(v*2, tl, tm, l, min(r, tm));
+    auto q2 = query(v*2+1, tm+1, tr, max(l, tm+1), r);
+    return max(q1, q2);
 }
 
 
 int main() {
     FAST_IO
-//	FILE_IN
-//	FILE_OUT
-//	cout << setprecision(11);
+    FILE_IN
+    FILE_OUT
+//    cout << setprecision(11);
 
-//    TESTCASES {}
+    TESTCASES1 {
+        cin >> n;
+        memset(t, 0, sizeof t);
+        memset(lazy, 0, sizeof lazy);
+        vi a(n, 0);
+        cinai(a, n);
+        build(a, 1, 0, n - 1);
+        int q;
+        cin >> q;
+        while (q--) {
+            int l, r;
+            cin >> l >> r;
+            update(1, 0, n - 1, l, r);
+            int ans = query(1, 0, n - 1, 0, n - 1);
+        }
+    }
+
     cout << flush;
 }

@@ -56,12 +56,12 @@ template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
-//#include <ext/rope>
-//using namespace __gnu_cxx;
+#include <ext/rope>
+using namespace __gnu_cxx;
 //rope<int> v1;  // can use as usual STL container
 // v1.push_back(x), v1.erase(start, len)
 // v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin() + idx, v2)
+// v.insert(v.mutable_begin(), v2)
 // auto it = v.mutable_begin(); it != v.mutable_end(); it++
 // can index using [ ] to return const ref
 // modify: v.mutable_reference_at(i) = x
@@ -108,10 +108,45 @@ inline ll mod_inv(ll x, ll m) {
 
 int main() {
     FAST_IO
-//	FILE_IN
-//	FILE_OUT
-//	cout << setprecision(11);
+    FILE_IN
+    FILE_OUT
+    cout << setprecision(11);
 
-//    TESTCASES {}
+    TESTCASES1 {
+        int n;
+        cin >> n;
+        int a[n];
+        cinai(a, n);
+        sort(a, a + n);
+        // n >= 4
+        // if length is 4, split into 2 - 2
+        if (n == 4) {
+            ld p1 = (a[0] + a[1]) * 0.5l;
+            ld p2 = (a[2] + a[3]) * 0.5l;
+            CASEOUT << abs(p2 - p1) << endl;
+        }
+            // if length is 5, split 2 - 2 and the center one to
+            // whichever will max the dist
+        else if (n == 5) {
+            // point will be avg of leftmost and rightmost
+            // case 1: assign to left
+            ld ans = -1;
+            ld p1 = (a[0] + a[2]) * 0.5l;
+            ld p2 = (a[3] + a[4]) * 0.5l;
+            ans = abs(p2 - p1);
+            // case 2: assign to right
+            p1 = (a[0] + a[1]) * 0.5l;
+            p2 = (a[2] + a[4]) * 0.5l;
+            ans = max(ans, abs(p2 - p1));
+            CASEOUT << ans << endl;
+        }
+            // if length >= 6 we good
+        else {
+            ld p1 = (a[0] + a[1]) * 0.5l;
+            ld p2 = (a[n - 1] + a[n - 2]) * 0.5l;
+            CASEOUT << abs(p2 - p1) << endl;
+        }
+    }
+
     cout << flush;
 }

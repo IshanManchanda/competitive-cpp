@@ -56,12 +56,12 @@ template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
 
-//#include <ext/rope>
-//using namespace __gnu_cxx;
+#include <ext/rope>
+using namespace __gnu_cxx;
 //rope<int> v1;  // can use as usual STL container
 // v1.push_back(x), v1.erase(start, len)
 // v2 = v1.substr(l, r - l + 1)
-// v.insert(v.mutable_begin() + idx, v2)
+// v.insert(v.mutable_begin(), v2)
 // auto it = v.mutable_begin(); it != v.mutable_end(); it++
 // can index using [ ] to return const ref
 // modify: v.mutable_reference_at(i) = x
@@ -113,5 +113,41 @@ int main() {
 //	cout << setprecision(11);
 
 //    TESTCASES {}
+    int n, m;
+    cin >> n >> m;
+    int a[m];
+    cinai(a, m);
+    pi best_ps[n];
+    REP(i, 0, m) best_ps[i] = {a[i], i};
+    sort(best_ps, best_ps + n, greater<>());
+    string s[n];
+    REP(i, 0, n) cin >> s[i];
+    // for each player, find out their score and the max score
+    // also need to find the max score problems they haven't solved
+    // sort prob score, idx and iterate over
+    int max_sc = -1;
+    REP(i, 0, n) {
+        int sc = 0;
+        for (int j = 0; j < m; j++)
+            if (s[i][j] == 'o') sc += a[j];
+        sc += i + 1;
+        max_sc = max(max_sc, sc);
+    }
+
+    REP(i, 0, n) {
+        int sc = 0;
+        for (int j = 0; j < m; j++)
+            if (s[i][j] == 'o') sc += a[j];
+        sc += i + 1;
+//        cout << i << ": " << sc << " -> ";
+        int ans = 0, j = 0;
+        while (sc < max_sc) {
+            // add j'th best problem if not alr solved
+            if (s[i][best_ps[j].ss] == 'x') sc += best_ps[j].ff, ans++;
+            j++;
+        }
+        cout << ans << endl;
+    }
+
     cout << flush;
 }
