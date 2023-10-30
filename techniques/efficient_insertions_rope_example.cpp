@@ -132,13 +132,14 @@ int main() {
     // Order Statistics Set: Store pairs of <position, value>
     // to insert, we'll need to change position of all nodes after this
     // to avoid that, we use a double value for position and always just
-    // take the mean of the 2 numbers its supposed to be placed in between
+    // take the mean of the 2 numbers it's supposed to be placed in between
     // move pointer is simply add/sub to a variable k, and for third query
     // we can get element in lg n using this k
 
     // Skip list and Sqrt Decomp are basically just linked list variants
     // Where we have additional pointers or an array of pointers
     // which allow faster traversal (randomized in SL and sqrt in SD)
+
     int n, q;
     cin >> n >> q;
     rope<int> v;
