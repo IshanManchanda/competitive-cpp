@@ -1,12 +1,13 @@
-//#pragma GCC optimize("O2,unroll-loops")
+//#pragma GCC optimize("O3,unroll-loops")
 //#pragma GCC target("avx,avx2,fma,tune=native")
-#pragma GCC target("avx,avx2,fma")
+//#pragma GCC target("avx,avx2,fma")
+//#pragma GCC target("tune=native")
 
 #include <bits/stdc++.h>
 using namespace std;
 
-#define F first
-#define S second
+#define ff first
+#define ss second
 #define all(x) begin(x), end(x)
 #define rall(x) (x).rbegin(), (x).rend()
 
@@ -16,6 +17,9 @@ using namespace std;
 
 #define REP(i, a, b) for (ll i = (a); i < (b); ++i)
 #define RREP(i, a, b) for (ll i = (a); i > (b); --i)
+#define cinai(a, n) REP(i, 0, n) cin >> a[i]
+#define cinani(a, n) int n; cin >> n; int a[n]; cinai(a, n)
+#define cinan(a, n) ll n; cin >> n; ll a[n]; cinai(a, n)
 
 #define FAST_IO ios_base::sync_with_stdio(false); cin.tie(nullptr);
 #define FILE_IN freopen("input.txt", "r", stdin);
@@ -23,7 +27,10 @@ using namespace std;
 
 #define TESTCASES ll tt; cin >> tt; while (tt--)
 #define TESTCASES1 ll tt; cin >> tt; REP(ttt, 1, tt + 1)
-#define CASEOUT cout << "Case " << ttt << ": "
+#define CASEOUT cout << "Case #" << ttt << ": "
+
+#define TIME_START using std::chrono::high_resolution_clock; using std::chrono::duration_cast; using std::chrono::duration; using std::chrono::milliseconds; auto ttt1 = high_resolution_clock::now();
+#define TIME_STOP auto ttt2 = high_resolution_clock::now(); duration<double, std::milli> ms_double = ttt2 - ttt1; cerr << ms_double.count() << "ms\n";
 
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
@@ -46,10 +53,31 @@ template <class T, class... S> void dbs(string str, T t, S... s) {int idx = str.
 template <class T> void prc(T a, T b) {cerr << "["; for (T i = a; i != b; ++i) {if (i != a) cerr << ", "; cerr << *i;} cerr << "]\n";}
 
 //#include <ext/pb_ds/assoc_container.hpp>
+//#include <ext/pb_ds/tree_policy.hpp>
 //using namespace __gnu_pbds;
 //typedef tree<int, null_type, less<int>, rb_tree_tag,
 //	tree_order_statistics_node_update> indexed_set;
 /* find_by_order(k) and order_of_key(x) */
+
+//#include <ext/rope>
+//using namespace __gnu_cxx;
+//rope<int> v1;  // can use as usual STL container
+// v1.push_back(x), v1.erase(start, len)
+// v2 = v1.substr(l, r - l + 1)
+// v.insert(v.mutable_begin() + idx, v2)
+// auto it = v.mutable_begin(); it != v.mutable_end(); it++
+// can index using [ ] to return const ref
+// modify: v.mutable_reference_at(i) = x
+
+//#include <ext/pb_ds/assoc_container.hpp>
+//using namespace __gnu_pbds;
+//gp_hash_table<int, int> table;
+// can use any other type as key if defined a hash function
+//struct chash {
+//    int operator()(pi x) const { return x.first * 31 + x.second; }
+//};
+//gp_hash_table<pi, int, chash> table;
+
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -59,85 +87,57 @@ typedef pair<int, int> pi;
 typedef pair<ll, ll> pl;
 typedef tuple<int, int, int> ti;
 typedef vector<int> vi;
+typedef vector<pi> vpi;
 typedef vector<vi> vvi;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
 
-
-struct Interval {
-    ll s, e;
-};
-
-bool mycomp(Interval a, Interval b) { return a.s < b.s; }
-
-int mergeIntervals(Interval arr[], int n) {
-    // Sort Intervals in increasing order of
-    // start time
-    sort(arr, arr + n, mycomp);
-
-    int index = 0; // Stores index of last element
-    // in output array (modified arr[])
-
-    // Traverse all input Intervals
-    for (int i = 1; i < n; i++) {
-        // If this is not first Interval and overlaps
-        // with the previous one
-        if (arr[index].e > arr[i].s) {
-            // Merge previous and current Intervals
-            arr[index].e = max(arr[index].e, arr[i].e);
-        }
-        else {
-            index++;
-            arr[index] = arr[i];
-        }
+// x^y mod m in O(log y)
+ll bin_exp_mod(ll x, ll y, ll m) {
+    x %= m;
+    ll ans = 1LL;
+    while (y) {
+        if (y & 1) ans = (ans * x) % m;
+        x = (x * x) % m;
+        y >>= 1;
     }
-
-//     Now arr[0..index-1] stores the merged Intervals
-//    cout << "The Merged Intervals are: ";
-//    for (int i = 0; i <= index; i++)
-//        cout << "[" << arr[i].s << ", " << arr[i].e << "] ";
-    return index;
+    return ans;
+}
+// Works when m is prime, use extended GCD otherwise
+inline ll mod_inv(ll x, ll m) {
+    return bin_exp_mod(x, m - 2, m);
 }
 
+
 int main() {
+    TIME_START
     FAST_IO
-//	FILE_IN
-//	FILE_OUT
-//	cout << setprecision(19);
+    FILE_IN
+    FILE_OUT
+    cout << setprecision(11);
 
     TESTCASES1 {
-        ll ulx, uly, lrx, lry, dx, dy, n;
-        cin >> ulx >> uly >> lrx >> lry;
-        cin >> dx >> dy >> n;
-        ll tx[n], ty[n];
-        double tr[n];
-        Interval intvs[n];
-        REP(i, 0, n) {
-            cin >> tx[i] >> ty[i] >> tr[i];
-            double d = sqrt((tx[i] - dx) * (tx[i] - dx) + (ty[i] - dy) * (ty[i] - dy));
-            ll close = floor(d - tr[i]), far = ceil(tr[i] + d);
-            close = max(0ll, close);
-            if (close > far) close = far = 0;
-            intvs[i] = {close, far};
-//            cout << d << ": " << close << " " << far << endl;
-        }
+        ll n;
+        cin >> n;
+        vl a(n), b(n);
+        REP(i, 0, n) cin >> a[i] >> b[i];
 
-        ll end = mergeIntervals(intvs, n), open = 1;
-        ll max_r = min(min(dx - ulx, lrx - dx), min(uly - dy, dy - lry));
-//        cout << "maxr" << max_r << endl;
-        ll ans = 0;
-
-//        cout << end << endl;
-        REP(i, 0, end + 1) {
-            ll close = min(intvs[i].s, max_r);
-//            cout << open << " " << close << endl;
-            ans += max(0ll, close - open + 1);
-//            cout << ans << endl;
-            open = intvs[i].e;
-            if (open >= max_r) break;
+        // For each station, we can calc a min speed and maintain a rolling max
+        long double min_speed = 0;
+        for (int i = 0; i < n; i++) {
+            min_speed = max(min_speed, (i + 1) * 1.0l / b[i]);
         }
-        ans += max(0ll, max_r - open + 1);
-        CASEOUT << ans << endl;
+        int flag = 0;
+
+        // check if we exceed the max speed for any station
+        for (int i = 0; i < n; i++) {
+            long double arrival = (i + 1) / min_speed;
+            if (arrival < a[i] || arrival > b[i]) flag = 1;
+            if (flag) break;
+        }
+        CASEOUT << (flag ? -1 : min_speed) << endl;
     }
+
     cout << flush;
+    TIME_STOP
 }

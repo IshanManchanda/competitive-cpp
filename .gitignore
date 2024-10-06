@@ -5,7 +5,7 @@
 
 current.cpp
 archive*.cpp
-archives/
+archive/
 
 input*.txt
 output*.txt
