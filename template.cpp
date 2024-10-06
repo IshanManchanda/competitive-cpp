@@ -29,6 +29,9 @@ using namespace std;
 #define TESTCASES1 ll tt; cin >> tt; REP(ttt, 1, tt + 1)
 #define CASEOUT cout << "Case #" << ttt << ": "
 
+#define TIME_START using std::chrono::high_resolution_clock; using std::chrono::duration_cast; using std::chrono::duration; using std::chrono::milliseconds; auto ttt1 = high_resolution_clock::now();
+#define TIME_STOP auto ttt2 = high_resolution_clock::now(); duration<double, std::milli> ms_double = ttt2 - ttt1; cerr << ms_double.count() << "ms\n";
+
 #define NEG_INF (-LLONG_MAX)
 #define FLOAT_EQ(a, b) (abs((a) - (b)) < 1e-9)
 #define MOD (1'000'000'007)
@@ -107,11 +110,14 @@ inline ll mod_inv(ll x, ll m) {
 
 
 int main() {
+    TIME_START
     FAST_IO
-//	FILE_IN
-//	FILE_OUT
-//	cout << setprecision(11);
+//    FILE_IN
+//    FILE_OUT
+//    cout << setprecision(11);
 
 //    TESTCASES {}
     cout << flush;
+
+    TIME_STOP
 }
