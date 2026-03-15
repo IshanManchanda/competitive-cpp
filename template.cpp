@@ -110,14 +110,17 @@ inline ll mod_inv(ll x, ll m) {
 
 
 int main() {
-    TIME_START
+//    TIME_START
     FAST_IO
 //    FILE_IN
 //    FILE_OUT
 //    cout << setprecision(11);
 
-//    TESTCASES {}
-    cout << flush;
+    // ll mod = 998'244'353;
+    TESTCASES {
 
-    TIME_STOP
+    }
+
+    cout << flush;
+//    TIME_STOP
 }
