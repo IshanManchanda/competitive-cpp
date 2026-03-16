@@ -49,23 +49,16 @@ typedef vector<vi> vvi;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
 
-string s, t;
-vi p, temp;
+ll n, m;
+vl t, z, y;
 
-bool check(int x) {
-    temp.resize(s.size(), 0);
-    REP(i, 0, x) temp[p[i] - 1] = 1;
-
-    int j = 0, flag = 1;
-    for (auto c : t) {
-        while (j < s.size() && (s[j] != c || temp[j])) j++;
-        if (j == s.size()) {
-            flag = 0;
-            break;
-        }
-        j++;
+bool check(ll t1) {
+    ll b = 0;
+    REP(i, 0, n) {
+        b += (t1 / (t[i] * z[i] + y[i])) * z[i];
+        b += min(z[i], (t1 % (t[i] * z[i] + y[i])) / t[i]);
     }
-    return flag;
+    return b >= m;
 }
 
 int main() {
@@ -76,18 +69,31 @@ int main() {
 
 //    TESTCASES {
 //    }
-    cin >> s;
-    cin >> t;
-    p.resize(s.length());
-    REP(i, 0, s.length()) cin >> p[i];
+    cin >> m >> n;
+    t.resize(n);
+    z.resize(n);
+    y.resize(n);
+    REP(i, 0, n) cin >> t[i] >> z[i] >> y[i];
 
-    int l = 0, r = s.length();
+    ll l = -1, r = (1ll << 33);
     while (r > l + 1) {
-        int m = (l + r) / 2;
-        if (check(m)) l = m;
-        else r = m;
+        ll c = (l + r) / 2;
+        if (check(c)) r = c;
+        else l = c;
     }
-    cout << l;
+
+    cout << r << NEWL;
+    ll b = 0, c;
+    REP(i, 0, n) {
+        c = (r / (t[i] * z[i] + y[i])) * z[i];
+        c += min(z[i], (r % (t[i] * z[i] + y[i])) / t[i]);
+        b += c;
+        if (b > m) {
+            c -= b - m;
+            b = m;
+        }
+        cout << c << " ";
+    }
 
     cout << flush;
 }
