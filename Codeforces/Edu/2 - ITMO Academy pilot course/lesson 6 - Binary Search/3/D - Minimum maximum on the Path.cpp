@@ -151,14 +151,14 @@ int main() {
     // Binary search for the minimum c* such that c[i] <= c* for
     // all roads from city 1 to n.
     // lo -> Never possible, hi -> Always possible*.
-    ll lo = 0, hi = 1e9 + 7;
+    ll lo = -1, hi = 1e9 + 7;
     while (hi > lo + 1) {
         ll mid = (lo + hi) / 2;
         if (check(mid)) hi = mid;
         else lo = mid;
     }
 
-    if (lo >= 1e9) {
+    if (lo > 1e9 + 1) {
         cout << "-1\n";
     }
     else {
